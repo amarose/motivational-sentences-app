@@ -3,45 +3,75 @@ package com.example.motivationalsentencesapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.motivationalsentencesapp.ui.theme.MyApplicationTheme
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.motivationalsentencesapp.ui.home.HomeScreen
+import com.example.motivationalsentencesapp.ui.main.MainViewModel
+import com.example.motivationalsentencesapp.ui.onboarding.OnboardingScreen
+import com.example.motivationalsentencesapp.ui.theme.MotivationalSentencesAppTheme
+import org.koin.androidx.compose.koinViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            MyApplicationTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+            MotivationalSentencesAppTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    MotivationalApp()
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+object Routes {
+    const val ONBOARDING = "onboarding"
+    const val HOME = "home"
 }
 
-@Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    MyApplicationTheme {
-        Greeting("Android")
+fun MotivationalApp(viewModel: MainViewModel = koinViewModel()) {
+    val isOnboardingCompleted by viewModel.isOnboardingCompleted.collectAsState()
+    val navController = rememberNavController()
+
+    Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+        when (isOnboardingCompleted) {
+            null -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
+            }
+            else -> {
+                NavHost(
+                    navController = navController,
+                    startDestination = if (isOnboardingCompleted == true) Routes.HOME else Routes.ONBOARDING
+                ) {
+                    composable(Routes.ONBOARDING) {
+                        OnboardingScreen(onOnboardingComplete = {
+                            navController.navigate(Routes.HOME) {
+                                popUpTo(Routes.ONBOARDING) { inclusive = true }
+                            }
+                        })
+                    }
+                    composable(Routes.HOME) {
+                        HomeScreen()
+                    }
+                }
+            }
+        }
     }
 }
