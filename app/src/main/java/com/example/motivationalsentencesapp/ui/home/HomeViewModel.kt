@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.motivationalsentencesapp.data.model.Quote
 import com.example.motivationalsentencesapp.ui.navigation.Routes
+import com.example.motivationalsentencesapp.domain.usecase.ArchiveQuoteUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetQuoteByIdUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetRandomQuoteUseCase
 import com.example.motivationalsentencesapp.domain.usecase.UpdateQuoteUseCase
@@ -25,6 +26,7 @@ class HomeViewModel(
     private val getRandomQuoteUseCase: GetRandomQuoteUseCase,
     private val updateQuoteUseCase: UpdateQuoteUseCase,
     private val getQuoteByIdUseCase: GetQuoteByIdUseCase,
+    private val archiveQuoteUseCase: ArchiveQuoteUseCase,
     private val notificationProvider: NotificationProvider,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -55,7 +57,10 @@ class HomeViewModel(
         quoteJob?.cancel()
         quoteJob = getQuoteByIdUseCase(id)
             .onEach { quote ->
-                quote?.let { _uiState.value = uiState.value.copy(quote = it) }
+                quote?.let {
+                    _uiState.value = uiState.value.copy(quote = it)
+                    archiveQuoteUseCase(it)
+                }
             }
             .launchIn(viewModelScope)
     }

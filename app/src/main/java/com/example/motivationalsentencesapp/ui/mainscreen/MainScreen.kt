@@ -1,6 +1,5 @@
 package com.example.motivationalsentencesapp.ui.mainscreen
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -60,8 +59,8 @@ fun MainScreen() {
         }
     ) { innerPadding ->
         NavHost(
-            navController, 
-            startDestination = Routes.Home.ROUTE_BASE, 
+            navController,
+            startDestination = Routes.Home.ROUTE_BASE,
             Modifier.padding(innerPadding)
         ) {
             composable(
@@ -72,18 +71,8 @@ fun MainScreen() {
                     navArgument(Routes.Home.ARG_QUOTE_AUTHOR) { type = NavType.StringType; nullable = true },
                     navArgument(Routes.Home.ARG_IS_FAVORITE) { type = NavType.BoolType; defaultValue = false }
                 )
-            ) { backStackEntry ->
-                val arguments = requireNotNull(backStackEntry.arguments)
-                val quoteId = arguments.getInt(Routes.Home.ARG_QUOTE_ID)
-                val quoteText = arguments.getString(Routes.Home.ARG_QUOTE_TEXT)
-                val quoteAuthor = arguments.getString(Routes.Home.ARG_QUOTE_AUTHOR)
-                val isFavorite = arguments.getBoolean(Routes.Home.ARG_IS_FAVORITE)
-
-                if (quoteId != -1 && quoteText != null && quoteAuthor != null) {
-                    HomeScreen()
-                } else {
-                    HomeScreen()
-                }
+            ) {
+                HomeScreen()
             }
             composable(Routes.Favorites.ROUTE) { FavoritesScreen() }
             composable(Routes.Archive.ROUTE) { ArchiveScreen() }

@@ -8,6 +8,12 @@ import com.example.motivationalsentencesapp.data.repository.QuoteRepository
 import com.example.motivationalsentencesapp.data.repository.QuoteRepositoryImpl
 import com.example.motivationalsentencesapp.domain.usecase.*
 import androidx.lifecycle.SavedStateHandle
+import androidx.room.Room
+
+import com.example.motivationalsentencesapp.data.local.AppDatabase
+import com.example.motivationalsentencesapp.data.repository.ArchiveRepository
+import com.example.motivationalsentencesapp.data.repository.ArchiveRepositoryImpl
+import com.example.motivationalsentencesapp.ui.archive.ArchiveViewModel
 import com.example.motivationalsentencesapp.ui.favorites.FavoritesViewModel
 import com.example.motivationalsentencesapp.ui.home.HomeViewModel
 import com.example.motivationalsentencesapp.ui.main.MainViewModel
@@ -25,7 +31,12 @@ val appModule = module {
     // Data Layer
     single<UserPreferencesRepository> { UserPreferencesRepositoryImpl(androidContext()) }
     single<QuoteRepository> { QuoteRepositoryImpl() }
+    single<ArchiveRepository> { ArchiveRepositoryImpl(get()) }
     single<NotificationScheduler> { NotificationSchedulerImpl(androidContext(), get()) }
+
+    // Database
+    single { Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "app-database").build() }
+    single { get<AppDatabase>().archivedQuoteDao() }
 
     // Domain Layer
     factory<GetOnboardingStatusUseCase> { GetOnboardingStatusUseCaseImpl(get()) }
@@ -36,13 +47,17 @@ val appModule = module {
     factory<UpdateQuoteUseCase> { UpdateQuoteUseCaseImpl(get()) }
     factory<GetFavoriteQuotesUseCase> { GetFavoriteQuotesUseCaseImpl(get()) }
     factory<GetQuoteByIdUseCase> { GetQuoteByIdUseCaseImpl(get()) }
+    factory<ArchiveQuoteUseCase> { ArchiveQuoteUseCaseImpl(get()) }
+    factory<GetArchivedQuotesUseCase> { GetArchivedQuotesUseCaseImpl(get()) }
+    factory<CleanUpArchiveUseCase> { CleanUpArchiveUseCaseImpl(get()) }
 
     // Presentation Layer
     viewModel { MainViewModel(get()) }
     viewModel { OnboardingViewModel(androidApplication(), get(), get(), get()) }
-    viewModel { (handle: SavedStateHandle) -> HomeViewModel(get(), get(), get(), get(), handle) }
+    viewModel { (handle: SavedStateHandle) -> HomeViewModel(get(), get(), get(), get(), get(), handle) }
     viewModel { SettingsViewModel(get(), get(), get()) }
     viewModel { FavoritesViewModel(get(), get()) }
+    viewModel { ArchiveViewModel(get(), get()) }
 
     single { NotificationProvider(androidContext()) }
 

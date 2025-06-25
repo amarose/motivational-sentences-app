@@ -1,0 +1,12 @@
+package com.example.motivationalsentencesapp.data.model
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "archived_quotes")
+data class ArchivedQuote(
+    @PrimaryKey val quoteId: Int,
+    val text: String,
+    val author: String,
+    val timestamp: Long
+)
