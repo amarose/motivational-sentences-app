@@ -8,6 +8,7 @@ import com.example.motivationalsentencesapp.data.repository.QuoteRepository
 import com.example.motivationalsentencesapp.data.repository.QuoteRepositoryImpl
 import com.example.motivationalsentencesapp.domain.usecase.*
 import androidx.lifecycle.SavedStateHandle
+import com.example.motivationalsentencesapp.ui.favorites.FavoritesViewModel
 import com.example.motivationalsentencesapp.ui.home.HomeViewModel
 import com.example.motivationalsentencesapp.ui.main.MainViewModel
 import com.example.motivationalsentencesapp.ui.notification.NotificationProvider
@@ -18,7 +19,6 @@ import com.example.motivationalsentencesapp.ui.settings.SettingsViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
 
 val appModule = module {
 
@@ -33,12 +33,16 @@ val appModule = module {
     factory<GetNotificationPreferencesUseCase> { GetNotificationPreferencesUseCaseImpl(get()) }
     factory<UpdateNotificationPreferencesUseCase> { UpdateNotificationPreferencesUseCaseImpl(get()) }
     factory<GetRandomQuoteUseCase> { GetRandomQuoteUseCaseImpl(get()) }
+    factory<UpdateQuoteUseCase> { UpdateQuoteUseCaseImpl(get()) }
+    factory<GetFavoriteQuotesUseCase> { GetFavoriteQuotesUseCaseImpl(get()) }
+    factory<GetQuoteByIdUseCase> { GetQuoteByIdUseCaseImpl(get()) }
 
     // Presentation Layer
     viewModel { MainViewModel(get()) }
     viewModel { OnboardingViewModel(androidApplication(), get(), get(), get()) }
-    viewModel { (handle: SavedStateHandle) -> HomeViewModel(get(), get(), handle) }
+    viewModel { (handle: SavedStateHandle) -> HomeViewModel(get(), get(), get(), get(), handle) }
     viewModel { SettingsViewModel(get(), get(), get()) }
+    viewModel { FavoritesViewModel(get(), get()) }
 
     single { NotificationProvider(androidContext()) }
 

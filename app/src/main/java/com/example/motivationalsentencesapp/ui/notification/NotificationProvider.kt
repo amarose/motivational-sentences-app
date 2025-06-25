@@ -16,8 +16,10 @@ class NotificationProvider(private val context: Context) {
     fun showNotification(quote: Quote) {
         val clickIntent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            putExtra(MainActivity.EXTRA_QUOTE_ID, quote.id)
             putExtra(MainActivity.EXTRA_QUOTE_TEXT, quote.text)
             putExtra(MainActivity.EXTRA_QUOTE_AUTHOR, quote.author)
+            putExtra(MainActivity.EXTRA_IS_FAVORITE, quote.isFavorite)
         }
 
         val pendingIntent = PendingIntent.getActivity(

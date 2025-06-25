@@ -26,7 +26,7 @@ import com.example.motivationalsentencesapp.ui.navigation.Routes
 import com.example.motivationalsentencesapp.ui.settings.SettingsScreen
 
 @Composable
-fun MainScreen(quoteText: String?, quoteAuthor: String?) {
+fun MainScreen() {
     val navController = rememberNavController()
     val items = listOf(
         BottomNavItem.Home,
@@ -59,24 +59,32 @@ fun MainScreen(quoteText: String?, quoteAuthor: String?) {
             }
         }
     ) { innerPadding ->
-        val startDestination = if (quoteText != null && quoteAuthor != null) {
-            Routes.Home.withArgs(quoteText, quoteAuthor)
-        } else {
-            Routes.Home.ROUTE_BASE
-        }
-
         NavHost(
             navController, 
-            startDestination = startDestination, 
+            startDestination = Routes.Home.ROUTE_BASE, 
             Modifier.padding(innerPadding)
         ) {
             composable(
                 route = Routes.Home.ROUTE_TEMPLATE,
                 arguments = listOf(
+                    navArgument(Routes.Home.ARG_QUOTE_ID) { type = NavType.IntType; defaultValue = -1 },
                     navArgument(Routes.Home.ARG_QUOTE_TEXT) { type = NavType.StringType; nullable = true },
-                    navArgument(Routes.Home.ARG_QUOTE_AUTHOR) { type = NavType.StringType; nullable = true }
+                    navArgument(Routes.Home.ARG_QUOTE_AUTHOR) { type = NavType.StringType; nullable = true },
+                    navArgument(Routes.Home.ARG_IS_FAVORITE) { type = NavType.BoolType; defaultValue = false }
                 )
-            ) { HomeScreen() }
+            ) { backStackEntry ->
+                val arguments = requireNotNull(backStackEntry.arguments)
+                val quoteId = arguments.getInt(Routes.Home.ARG_QUOTE_ID)
+                val quoteText = arguments.getString(Routes.Home.ARG_QUOTE_TEXT)
+                val quoteAuthor = arguments.getString(Routes.Home.ARG_QUOTE_AUTHOR)
+                val isFavorite = arguments.getBoolean(Routes.Home.ARG_IS_FAVORITE)
+
+                if (quoteId != -1 && quoteText != null && quoteAuthor != null) {
+                    HomeScreen()
+                } else {
+                    HomeScreen()
+                }
+            }
             composable(Routes.Favorites.ROUTE) { FavoritesScreen() }
             composable(Routes.Archive.ROUTE) { ArchiveScreen() }
             composable(Routes.Settings.ROUTE) { SettingsScreen() }
