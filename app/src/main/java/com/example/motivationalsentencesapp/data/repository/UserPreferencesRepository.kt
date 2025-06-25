@@ -6,7 +6,11 @@ import kotlinx.coroutines.flow.Flow
 interface UserPreferencesRepository {
     val userPreferences: Flow<NotificationPreferences>
 
-    suspend fun updateNotificationPreferences(notificationEnabled: Boolean, notificationTimes: List<String>)
+    suspend fun updateNotificationPreferences(
+        notificationEnabled: Boolean,
+        notificationTimes: List<String>,
+        notificationQuantity: Int
+    )
 
     fun isOnboardingCompleted(): Flow<Boolean>
 

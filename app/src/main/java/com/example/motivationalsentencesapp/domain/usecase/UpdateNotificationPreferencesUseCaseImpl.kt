@@ -5,7 +5,15 @@ import com.example.motivationalsentencesapp.data.repository.UserPreferencesRepos
 class UpdateNotificationPreferencesUseCaseImpl(
     private val userPreferencesRepository: UserPreferencesRepository
 ) : UpdateNotificationPreferencesUseCase {
-    override suspend fun invoke(notificationEnabled: Boolean, notificationTimes: List<String>) {
-        userPreferencesRepository.updateNotificationPreferences(notificationEnabled, notificationTimes)
+    override suspend fun invoke(
+        notificationEnabled: Boolean,
+        notificationTimes: List<String>,
+        notificationQuantity: Int
+    ) {
+        userPreferencesRepository.updateNotificationPreferences(
+            notificationEnabled,
+            notificationTimes,
+            notificationQuantity
+        )
     }
 }

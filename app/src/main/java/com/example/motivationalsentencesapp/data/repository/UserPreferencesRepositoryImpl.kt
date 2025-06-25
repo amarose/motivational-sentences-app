@@ -5,6 +5,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.motivationalsentencesapp.data.model.NotificationPreferences
@@ -20,20 +22,27 @@ class UserPreferencesRepositoryImpl(
     private object PreferencesKeys {
         val NOTIFICATION_ENABLED = booleanPreferencesKey("notification_enabled")
         val NOTIFICATION_TIMES = stringSetPreferencesKey("notification_times")
+        val NOTIFICATION_QUANTITY = intPreferencesKey("notification_quantity")
         val ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
     }
 
     override val userPreferences: Flow<NotificationPreferences> = context.dataStore.data
         .map { preferences ->
             val notificationEnabled = preferences[PreferencesKeys.NOTIFICATION_ENABLED] ?: true
-            val notificationTimes = preferences[PreferencesKeys.NOTIFICATION_TIMES] ?: setOf("09:00")
-            NotificationPreferences(notificationEnabled, notificationTimes.toList())
+            val notificationTimes = preferences[PreferencesKeys.NOTIFICATION_TIMES]?.toList() ?: listOf("09:00")
+            val notificationQuantity = preferences[PreferencesKeys.NOTIFICATION_QUANTITY] ?: 1
+            NotificationPreferences(notificationEnabled, notificationTimes, notificationQuantity)
         }
 
-    override suspend fun updateNotificationPreferences(notificationEnabled: Boolean, notificationTimes: List<String>) {
+    override suspend fun updateNotificationPreferences(
+        notificationEnabled: Boolean,
+        notificationTimes: List<String>,
+        notificationQuantity: Int
+    ) {
         context.dataStore.edit {
             it[PreferencesKeys.NOTIFICATION_ENABLED] = notificationEnabled
             it[PreferencesKeys.NOTIFICATION_TIMES] = notificationTimes.toSet()
+            it[PreferencesKeys.NOTIFICATION_QUANTITY] = notificationQuantity
         }
     }
 

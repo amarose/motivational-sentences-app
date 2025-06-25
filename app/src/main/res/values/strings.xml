@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Motivational Sentences</string>
+    <string name="permission_required_title">Permission Required</string>
+    <string name="exact_alarm_permission_description">To send notifications at a specific time, the application needs permission to schedule exact alarms. Please enable it in the settings.</string>
+    <string name="go_to_settings">Go to settings</string>
+    <string name="battery_optimization_title">Battery Optimization</string>
+    <string name="battery_optimization_description">To ensure notifications are delivered reliably, please allow the app to run in the background. In the next screen, find the battery settings and select \"Unrestricted\".</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Zapisz</string>
+    <string name="changes_saved">Zapisano zmiany</string>
 </resources>
