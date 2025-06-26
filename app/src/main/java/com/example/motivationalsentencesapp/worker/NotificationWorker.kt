@@ -26,7 +26,7 @@ class NotificationWorker(
                     context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
                 val notification = NotificationCompat.Builder(context, "motivational_quotes_channel")
-                    .setSmallIcon(R.drawable.background_1)
+                    .setSmallIcon(R.mipmap.logo_192)
                     .setContentTitle("Twoja codzienna dawka motywacji")
                     .setContentText("\"${it.text}\"")
                     .setStyle(NotificationCompat.BigTextStyle()

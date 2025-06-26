@@ -68,7 +68,7 @@ fun ArchivedQuoteItem(quote: ArchivedQuote) {
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
-                text = "\"${quote.text}\"",
+                text = quote.text,
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(bottom = 8.dp)
             )

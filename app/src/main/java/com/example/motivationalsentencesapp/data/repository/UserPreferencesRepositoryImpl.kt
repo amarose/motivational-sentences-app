@@ -6,7 +6,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.motivationalsentencesapp.R
@@ -30,12 +29,12 @@ class UserPreferencesRepositoryImpl(
 
     override val selectedBackgroundResId: Flow<Int> = context.dataStore.data
         .map { preferences ->
-            preferences[PreferencesKeys.SELECTED_BACKGROUND_RES_ID] ?: R.drawable.background_1
+            preferences[PreferencesKeys.SELECTED_BACKGROUND_RES_ID] ?: R.drawable.img1
         }
 
     override val userPreferences: Flow<NotificationPreferences> = context.dataStore.data
         .map { preferences ->
-            val notificationEnabled = preferences[PreferencesKeys.NOTIFICATION_ENABLED] ?: true
+            val notificationEnabled = preferences[PreferencesKeys.NOTIFICATION_ENABLED] != false
             val notificationTimes = preferences[PreferencesKeys.NOTIFICATION_TIMES]?.toList() ?: listOf("09:00")
             val notificationQuantity = preferences[PreferencesKeys.NOTIFICATION_QUANTITY] ?: 1
             NotificationPreferences(notificationEnabled, notificationTimes, notificationQuantity)
@@ -55,7 +54,7 @@ class UserPreferencesRepositoryImpl(
 
     override fun isOnboardingCompleted(): Flow<Boolean> = context.dataStore.data
         .map { preferences ->
-            preferences[PreferencesKeys.ONBOARDING_COMPLETED] ?: false
+            preferences[PreferencesKeys.ONBOARDING_COMPLETED] == true
         }
 
     override suspend fun setOnboardingCompleted(completed: Boolean) {
