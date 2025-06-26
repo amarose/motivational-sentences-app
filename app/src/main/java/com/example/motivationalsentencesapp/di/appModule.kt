@@ -39,8 +39,8 @@ val appModule = module {
 
     // Database
         single {
-        Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "app-database")
-            .fallbackToDestructiveMigration()
+            Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "app-database")
+                .fallbackToDestructiveMigration(false)
             .build()
     }
     single { get<AppDatabase>().archivedQuoteDao() }
@@ -64,7 +64,7 @@ val appModule = module {
     // Presentation Layer
     viewModel { MainViewModel(get()) }
     viewModel { OnboardingViewModel(androidApplication(), get(), get(), get()) }
-    viewModel { (handle: SavedStateHandle) -> HomeViewModel(get(), get(), get(), get(), get(), get(), handle) }
+    viewModel { (handle: SavedStateHandle) -> HomeViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { SettingsViewModel(get(), get(), get()) }
     viewModel { FavoritesViewModel(get(), get()) }
     viewModel { ArchiveViewModel(get(), get()) }

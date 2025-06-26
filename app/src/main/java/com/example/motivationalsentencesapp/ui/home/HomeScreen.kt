@@ -87,7 +87,7 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
                         text = "\"${quote.text}\"",
-                        style = MaterialTheme.typography.headlineSmall,
+                        style = MaterialTheme.typography.bodyLarge,
                         textAlign = TextAlign.Center,
                         lineHeight = 32.sp,
                         color = Color.White
@@ -100,7 +100,7 @@ fun HomeScreen(
                         Text(
                             text = "Podziel się motywacją",
                             color = Color.Black,
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.labelLarge
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Icon(
