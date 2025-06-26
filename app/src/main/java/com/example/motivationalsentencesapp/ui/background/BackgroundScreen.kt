@@ -12,11 +12,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
@@ -24,6 +29,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.motivationalsentencesapp.data.model.Background
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -56,19 +63,24 @@ fun BackgroundItem(
     onSelected: () -> Unit
 ) {
     val context = LocalContext.current
-    val imageBitmap = remember(background.resourceId) {
-        val options = BitmapFactory.Options().apply {
-            inJustDecodeBounds = true
+    var imageBitmap by remember { mutableStateOf<android.graphics.Bitmap?>(null) }
+
+    LaunchedEffect(background.resourceId) {
+        withContext(Dispatchers.IO) {
+            val options = BitmapFactory.Options().apply {
+                inJustDecodeBounds = true
+            }
+            BitmapFactory.decodeResource(context.resources, background.resourceId, options)
+
+            options.inSampleSize = calculateInSampleSize(options, 150, 300)
+
+            options.inJustDecodeBounds = false
+            imageBitmap = BitmapFactory.decodeResource(context.resources, background.resourceId, options)
         }
-        BitmapFactory.decodeResource(context.resources, background.resourceId, options)
-
-        options.inSampleSize = calculateInSampleSize(options, 150, 300)
-
-        options.inJustDecodeBounds = false
-        BitmapFactory.decodeResource(context.resources, background.resourceId, options).asImageBitmap()
     }
 
     Box(
+        contentAlignment = Alignment.Center,
         modifier = Modifier
             .aspectRatio(9f / 16f)
             .clip(MaterialTheme.shapes.medium)
@@ -85,12 +97,16 @@ fun BackgroundItem(
                 }
             )
     ) {
-        Image(
-            bitmap = imageBitmap,
-            contentDescription = background.name,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
+        if (imageBitmap != null) {
+            Image(
+                bitmap = imageBitmap!!.asImageBitmap(),
+                contentDescription = background.name,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
+        } else {
+            CircularProgressIndicator()
+        }
     }
 }
 
