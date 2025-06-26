@@ -2,11 +2,11 @@ package com.example.motivationalsentencesapp.ui.onboarding
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.app.AlarmManager
+
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import android.os.PowerManager
+
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,8 +28,6 @@ data class OnboardingUiState(
     val timePickerError: String? = null,
     val isSaveEnabled: Boolean = true,
     val errorMessage: String? = null,
-    val showExactAlarmPermissionDialog: Boolean = false,
-
     val onboardingComplete: Boolean = false
 )
 
@@ -119,17 +117,6 @@ class OnboardingViewModel(
             }
         }
 
-        // After confirming notification permission, check for exact alarm permission.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val alarmManager = getApplication<Application>().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            if (!alarmManager.canScheduleExactAlarms()) {
-                _uiState.update { it.copy(showExactAlarmPermissionDialog = true) }
-                return
-            }
-        }
-
-
-
         saveAndSchedule(currentState)
     }
 
@@ -148,9 +135,6 @@ class OnboardingViewModel(
         }
     }
 
-    fun onExactAlarmPermissionDialogDismissed() {
-        _uiState.update { it.copy(showExactAlarmPermissionDialog = false) }
-    }
 
     fun onReturnedFromSettings() {
         Log.d("OnboardingViewModel", "Returned from settings, re-evaluating permissions.")

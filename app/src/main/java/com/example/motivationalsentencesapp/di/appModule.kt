@@ -18,14 +18,16 @@ import com.example.motivationalsentencesapp.ui.background.BackgroundViewModel
 import com.example.motivationalsentencesapp.ui.favorites.FavoritesViewModel
 import com.example.motivationalsentencesapp.ui.home.HomeViewModel
 import com.example.motivationalsentencesapp.ui.main.MainViewModel
-import com.example.motivationalsentencesapp.ui.notification.NotificationProvider
+
 import com.example.motivationalsentencesapp.ui.notification.NotificationScheduler
-import com.example.motivationalsentencesapp.ui.notification.NotificationSchedulerImpl
+import com.example.motivationalsentencesapp.ui.notification.NotificationSchedulerWorkManagerImpl
 import com.example.motivationalsentencesapp.ui.onboarding.OnboardingViewModel
 import com.example.motivationalsentencesapp.ui.settings.SettingsViewModel
+import com.example.motivationalsentencesapp.worker.NotificationWorker
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.workmanager.dsl.worker
 
 val appModule = module {
 
@@ -33,10 +35,14 @@ val appModule = module {
     single<UserPreferencesRepository> { UserPreferencesRepositoryImpl(androidContext()) }
     single<QuoteRepository> { QuoteRepositoryImpl() }
     single<ArchiveRepository> { ArchiveRepositoryImpl(get()) }
-    single<NotificationScheduler> { NotificationSchedulerImpl(androidContext(), get()) }
+    single<NotificationScheduler> { NotificationSchedulerWorkManagerImpl(androidContext(), get()) }
 
     // Database
-    single { Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "app-database").build() }
+        single {
+        Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "app-database")
+            .fallbackToDestructiveMigration()
+            .build()
+    }
     single { get<AppDatabase>().archivedQuoteDao() }
 
     // Domain Layer
@@ -56,14 +62,15 @@ val appModule = module {
     factory<GetAvailableBackgroundsUseCase> { GetAvailableBackgroundsUseCaseImpl() }
 
     // Presentation Layer
-    viewModel { MainViewModel(get(), androidApplication()) }
+    viewModel { MainViewModel(get()) }
     viewModel { OnboardingViewModel(androidApplication(), get(), get(), get()) }
     viewModel { (handle: SavedStateHandle) -> HomeViewModel(get(), get(), get(), get(), get(), get(), handle) }
     viewModel { SettingsViewModel(get(), get(), get()) }
     viewModel { FavoritesViewModel(get(), get()) }
     viewModel { ArchiveViewModel(get(), get()) }
     viewModel { BackgroundViewModel(get(), get(), get()) }
+    worker { NotificationWorker(get(), get()) }
 
-    single { NotificationProvider(androidContext()) }
+
 
 }

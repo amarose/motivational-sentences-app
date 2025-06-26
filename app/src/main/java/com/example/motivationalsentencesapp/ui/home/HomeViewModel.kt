@@ -10,7 +10,6 @@ import com.example.motivationalsentencesapp.domain.usecase.GetQuoteByIdUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetSelectedBackgroundUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetRandomQuoteUseCase
 import com.example.motivationalsentencesapp.domain.usecase.UpdateQuoteUseCase
-import com.example.motivationalsentencesapp.ui.notification.NotificationProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.Job
@@ -36,7 +35,7 @@ class HomeViewModel(
     private val getQuoteByIdUseCase: GetQuoteByIdUseCase,
     private val archiveQuoteUseCase: ArchiveQuoteUseCase,
     private val getSelectedBackgroundUseCase: GetSelectedBackgroundUseCase,
-    private val notificationProvider: NotificationProvider,
+
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -97,7 +96,7 @@ class HomeViewModel(
     fun onShareClicked() {
         viewModelScope.launch {
             _uiState.value.quote?.let {
-                val quoteText = "\"${it.text}\" - ${it.author}"
+                val quoteText = "\"${it.text}\""
                 val promoText = "Pobierz tą aplikację zupełnie za darmo i czerp z niej motywację do działania - 'TODO wkleić link do aplikacji jak juz bedzie na play store'"
                 val shareText = "$quoteText\n\n$promoText"
                 _effect.emit(HomeViewEffect.ShareQuote(shareText))
@@ -105,10 +104,4 @@ class HomeViewModel(
         }
     }
 
-    fun onSendTestNotificationClicked() {
-        viewModelScope.launch {
-            val quote = getRandomQuoteUseCase()
-            notificationProvider.showNotification(quote)
-        }
-    }
 }

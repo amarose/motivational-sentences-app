@@ -1,10 +1,7 @@
 <resources>
-    <string name="app_name">Motivational Sentences</string>
+    <string name="app_name">Motywator</string>
     <string name="permission_required_title">Wymagane uprawnienia</string>
-    <string name="exact_alarm_permission_description">Aby wysyłać powiadomienia w określonym czasie, aplikacja potrzebuje uprawnienia do planowania dokładnych alarmów. Włącz to w ustawieniach.</string>
     <string name="go_to_settings">Ustawienia</string>
-    <string name="battery_optimization_title">Optymalizacja baterii</string>
-    <string name="battery_optimization_description">Aby zapewnić, że powiadomienia są wysyłane niezawodnie, upewnij się, że aplikacja może działać w tle. W następnym ekranie znajdź ustawienia baterii i wybierz: Nieograniczony dostęp.</string>
     <string name="cancel">Anuluj</string>
     <string name="save">Zapisz</string>
     <string name="changes_saved">Zapisano zmiany</string>

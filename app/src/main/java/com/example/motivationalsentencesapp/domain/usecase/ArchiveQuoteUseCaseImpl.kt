@@ -11,7 +11,6 @@ class ArchiveQuoteUseCaseImpl(
         val archivedQuote = ArchivedQuote(
             quoteId = quote.id,
             text = quote.text,
-            author = quote.author,
             timestamp = System.currentTimeMillis()
         )
         archiveRepository.archiveQuote(archivedQuote)

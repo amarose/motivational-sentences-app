@@ -4,9 +4,10 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
 import com.example.motivationalsentencesapp.di.appModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.workmanager.koin.workManagerFactory
+import org.koin.core.context.startKoin
 
 class MainApplication : Application() {
     override fun onCreate() {
@@ -14,6 +15,7 @@ class MainApplication : Application() {
         startKoin {
             androidContext(this@MainApplication)
             modules(appModule)
+            workManagerFactory()
         }
         createNotificationChannel()
     }

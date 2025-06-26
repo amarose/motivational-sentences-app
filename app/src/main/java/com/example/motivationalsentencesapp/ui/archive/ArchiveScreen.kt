@@ -18,7 +18,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.motivationalsentencesapp.data.model.ArchivedQuote
@@ -72,13 +71,6 @@ fun ArchivedQuoteItem(quote: ArchivedQuote) {
                 text = "\"${quote.text}\"",
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(bottom = 8.dp)
-            )
-            Text(
-                text = "- ${quote.author}",
-                style = MaterialTheme.typography.bodyMedium,
-                fontStyle = FontStyle.Italic,
-                textAlign = TextAlign.End,
-                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
             )
             Text(
                 text = "Zarchiwizowano: ${formatTimestamp(quote.timestamp)}",

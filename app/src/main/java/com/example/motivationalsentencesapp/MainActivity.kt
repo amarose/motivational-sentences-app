@@ -33,7 +33,6 @@ class MainActivity : ComponentActivity() {
 
         val quoteId = intent.getIntExtra(EXTRA_QUOTE_ID, -1)
         val quoteText = intent.getStringExtra(EXTRA_QUOTE_TEXT)
-        val quoteAuthor = intent.getStringExtra(EXTRA_QUOTE_AUTHOR)
         val isFavorite = intent.getBooleanExtra(EXTRA_IS_FAVORITE, false)
 
         setContent {
@@ -46,7 +45,6 @@ class MainActivity : ComponentActivity() {
                         viewModel = koinViewModel(),
                         quoteId = if (quoteId != -1) quoteId else null,
                         quoteText = quoteText,
-                        quoteAuthor = quoteAuthor,
                         isFavorite = isFavorite
                     )
                 }
@@ -57,7 +55,7 @@ class MainActivity : ComponentActivity() {
     companion object {
         const val EXTRA_QUOTE_ID = "EXTRA_QUOTE_ID"
         const val EXTRA_QUOTE_TEXT = "EXTRA_QUOTE_TEXT"
-        const val EXTRA_QUOTE_AUTHOR = "EXTRA_QUOTE_AUTHOR"
+
         const val EXTRA_IS_FAVORITE = "EXTRA_IS_FAVORITE"
     }
 }
@@ -69,7 +67,6 @@ fun MotivationalApp(
     viewModel: MainViewModel = koinViewModel(),
     quoteId: Int?,
     quoteText: String?,
-    quoteAuthor: String?,
     isFavorite: Boolean
 ) {
     val isOnboardingCompleted by viewModel.isOnboardingCompleted.collectAsState()
@@ -84,8 +81,8 @@ fun MotivationalApp(
             }
             else -> {
                 val startDestination = if (isOnboardingCompleted == true) {
-                    if (quoteId != null && quoteText != null && quoteAuthor != null) {
-                        Routes.Home.withArgs(quoteId, quoteText, quoteAuthor, isFavorite)
+                    if (quoteId != null && quoteText != null) {
+                        Routes.Home.withArgs(quoteId, quoteText, isFavorite)
                     } else {
                         Routes.MAIN
                     }
@@ -112,7 +109,6 @@ fun MotivationalApp(
                         arguments = listOf(
                             navArgument(Routes.Home.ARG_QUOTE_ID) { type = NavType.IntType },
                             navArgument(Routes.Home.ARG_QUOTE_TEXT) { type = NavType.StringType },
-                            navArgument(Routes.Home.ARG_QUOTE_AUTHOR) { type = NavType.StringType },
                             navArgument(Routes.Home.ARG_IS_FAVORITE) { type = NavType.BoolType }
                         )
                     ) {

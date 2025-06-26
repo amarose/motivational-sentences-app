@@ -57,11 +57,6 @@ fun OnboardingScreen(
     val context = LocalContext.current
     val launchPermissionRequest by viewModel.launchPermissionRequest.collectAsState()
 
-    val settingsLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult(),
-        onResult = { viewModel.onReturnedFromSettings() }
-    )
-
     LaunchedEffect(launchPermissionRequest) {
         if (launchPermissionRequest) {
             permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -72,32 +67,6 @@ fun OnboardingScreen(
         if (uiState.onboardingComplete) {
             onOnboardingComplete()
         }
-    }
-
-    if (uiState.showExactAlarmPermissionDialog) {
-        AlertDialog(
-            onDismissRequest = { viewModel.onExactAlarmPermissionDialogDismissed() },
-            title = { Text(stringResource(R.string.permission_required_title)) },
-            text = { Text(stringResource(R.string.exact_alarm_permission_description)) },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
-                            data = "package:${context.packageName}".toUri()
-                        }
-                        settingsLauncher.launch(intent)
-                        viewModel.onExactAlarmPermissionDialogDismissed()
-                    }
-                ) {
-                    Text(stringResource(R.string.go_to_settings))
-                }
-            },
-            dismissButton = {
-                Button(onClick = { viewModel.onExactAlarmPermissionDialogDismissed() }) {
-                    Text(stringResource(R.string.cancel))
-                }
-            }
-        )
     }
 
     OnboardingContent(

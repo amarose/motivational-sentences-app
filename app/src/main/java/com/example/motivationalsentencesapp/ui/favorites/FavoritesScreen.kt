@@ -66,11 +66,6 @@ private fun QuoteItem(quote: Quote, onToggleFavorite: () -> Unit) {
                 horizontalArrangement = Arrangement.End,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(
-                    text = "- ${quote.author}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontStyle = FontStyle.Italic
-                )
                 Spacer(modifier = Modifier.width(8.dp))
                 IconButton(onClick = onToggleFavorite) {
                     Icon(

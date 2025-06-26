@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
         android:name=".MainApplication"
@@ -12,7 +11,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/logo_192"
-        android:label="Motivational sentences app"
+        android:label="Motywator"
         android:roundIcon="@mipmap/logo_192_rounded"
         android:supportsRtl="true"
         android:theme="@style/Theme.MotivationalSentencesApp"
@@ -28,24 +27,18 @@
             </intent-filter>
         </activity>
 
-        <receiver
-            android:name=".ui.notification.NotificationReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.example.motivationalsentencesapp.ACTION_RECEIVE_NOTIFICATION" />
-            </intent-filter>
-        </receiver>
 
-        <receiver
-            android:name=".ui.notification.BootCompletedReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
 
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
     </application>
 
 </manifest>

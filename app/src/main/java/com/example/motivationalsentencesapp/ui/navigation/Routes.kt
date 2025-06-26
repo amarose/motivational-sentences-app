@@ -8,12 +8,11 @@ object Routes {
         const val ROUTE_BASE = "home"
         const val ARG_QUOTE_ID = "quoteId"
         const val ARG_QUOTE_TEXT = "quoteText"
-        const val ARG_QUOTE_AUTHOR = "quoteAuthor"
         const val ARG_IS_FAVORITE = "isFavorite"
-        val ROUTE_TEMPLATE = "$ROUTE_BASE?$ARG_QUOTE_ID={$ARG_QUOTE_ID}&$ARG_QUOTE_TEXT={$ARG_QUOTE_TEXT}&$ARG_QUOTE_AUTHOR={$ARG_QUOTE_AUTHOR}&$ARG_IS_FAVORITE={$ARG_IS_FAVORITE}"
+        val ROUTE_TEMPLATE = "$ROUTE_BASE?$ARG_QUOTE_ID={$ARG_QUOTE_ID}&$ARG_QUOTE_TEXT={$ARG_QUOTE_TEXT}&$ARG_IS_FAVORITE={$ARG_IS_FAVORITE}"
 
-        fun withArgs(id: Int, text: String, author: String, isFavorite: Boolean): String {
-            return "$ROUTE_BASE?$ARG_QUOTE_ID=$id&$ARG_QUOTE_TEXT=$text&$ARG_QUOTE_AUTHOR=$author&$ARG_IS_FAVORITE=$isFavorite"
+        fun withArgs(id: Int, text: String, isFavorite: Boolean): String {
+            return "$ROUTE_BASE?$ARG_QUOTE_ID=$id&$ARG_QUOTE_TEXT=$text&$ARG_IS_FAVORITE=$isFavorite"
         }
     }
 

@@ -92,13 +92,6 @@ fun HomeScreen(
                         lineHeight = 32.sp,
                         color = Color.White
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "- ${quote.author}",
-                        style = MaterialTheme.typography.bodyLarge,
-                        fontStyle = FontStyle.Italic,
-                        color = Color.White
-                    )
                     Spacer(modifier = Modifier.height(128.dp))
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -116,14 +109,6 @@ fun HomeScreen(
                             tint = Color.Black,
                             modifier = Modifier.size(48.dp)
                         )
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Button(
-                        onClick = { viewModel.onSendTestNotificationClicked() },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text("Wyślij testowe powiadomienie")
                     }
                 }
             } ?: CircularProgressIndicator(color = Color.White)

@@ -7,6 +7,5 @@ import androidx.room.PrimaryKey
 data class ArchivedQuote(
     @PrimaryKey val quoteId: Int,
     val text: String,
-    val author: String,
     val timestamp: Long
 )
