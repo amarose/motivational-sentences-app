@@ -1,7 +1,11 @@
 package com.example.motivationalsentencesapp.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "quotes")
 data class Quote(
-    val id: Int,
+    @PrimaryKey val id: Int,
     val text: String,
     val isFavorite: Boolean = false
 )

@@ -33,7 +33,7 @@ val appModule = module {
 
     // Data Layer
     single<UserPreferencesRepository> { UserPreferencesRepositoryImpl(androidContext()) }
-    single<QuoteRepository> { QuoteRepositoryImpl() }
+    single<QuoteRepository> { QuoteRepositoryImpl(get()) }
     single<ArchiveRepository> { ArchiveRepositoryImpl(get()) }
     single<NotificationScheduler> { NotificationSchedulerWorkManagerImpl(androidContext(), get()) }
 
@@ -43,6 +43,7 @@ val appModule = module {
                 .fallbackToDestructiveMigration(false)
             .build()
     }
+    single { get<AppDatabase>().quoteDao() }
     single { get<AppDatabase>().archivedQuoteDao() }
 
     // Domain Layer
