@@ -9,6 +9,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.motivationalsentencesapp.R
 import com.example.motivationalsentencesapp.data.model.NotificationPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -20,11 +21,17 @@ class UserPreferencesRepositoryImpl(
 ) : UserPreferencesRepository {
 
     private object PreferencesKeys {
+        val SELECTED_BACKGROUND_RES_ID = intPreferencesKey("selected_background_res_id")
         val NOTIFICATION_ENABLED = booleanPreferencesKey("notification_enabled")
         val NOTIFICATION_TIMES = stringSetPreferencesKey("notification_times")
         val NOTIFICATION_QUANTITY = intPreferencesKey("notification_quantity")
         val ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
     }
+
+    override val selectedBackgroundResId: Flow<Int> = context.dataStore.data
+        .map { preferences ->
+            preferences[PreferencesKeys.SELECTED_BACKGROUND_RES_ID] ?: R.drawable.background_1
+        }
 
     override val userPreferences: Flow<NotificationPreferences> = context.dataStore.data
         .map { preferences ->
@@ -54,6 +61,12 @@ class UserPreferencesRepositoryImpl(
     override suspend fun setOnboardingCompleted(completed: Boolean) {
         context.dataStore.edit {
             it[PreferencesKeys.ONBOARDING_COMPLETED] = completed
+        }
+    }
+
+    override suspend fun updateSelectedBackground(backgroundResId: Int) {
+        context.dataStore.edit {
+            it[PreferencesKeys.SELECTED_BACKGROUND_RES_ID] = backgroundResId
         }
     }
 }

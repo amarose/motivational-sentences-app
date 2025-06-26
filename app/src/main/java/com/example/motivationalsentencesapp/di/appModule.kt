@@ -14,6 +14,7 @@ import com.example.motivationalsentencesapp.data.local.AppDatabase
 import com.example.motivationalsentencesapp.data.repository.ArchiveRepository
 import com.example.motivationalsentencesapp.data.repository.ArchiveRepositoryImpl
 import com.example.motivationalsentencesapp.ui.archive.ArchiveViewModel
+import com.example.motivationalsentencesapp.ui.background.BackgroundViewModel
 import com.example.motivationalsentencesapp.ui.favorites.FavoritesViewModel
 import com.example.motivationalsentencesapp.ui.home.HomeViewModel
 import com.example.motivationalsentencesapp.ui.main.MainViewModel
@@ -50,14 +51,18 @@ val appModule = module {
     factory<ArchiveQuoteUseCase> { ArchiveQuoteUseCaseImpl(get()) }
     factory<GetArchivedQuotesUseCase> { GetArchivedQuotesUseCaseImpl(get()) }
     factory<CleanUpArchiveUseCase> { CleanUpArchiveUseCaseImpl(get()) }
+    factory<GetSelectedBackgroundUseCase> { GetSelectedBackgroundUseCaseImpl(get()) }
+    factory<UpdateSelectedBackgroundUseCase> { UpdateSelectedBackgroundUseCaseImpl(get()) }
+    factory<GetAvailableBackgroundsUseCase> { GetAvailableBackgroundsUseCaseImpl() }
 
     // Presentation Layer
-    viewModel { MainViewModel(get()) }
+    viewModel { MainViewModel(get(), androidApplication()) }
     viewModel { OnboardingViewModel(androidApplication(), get(), get(), get()) }
-    viewModel { (handle: SavedStateHandle) -> HomeViewModel(get(), get(), get(), get(), get(), handle) }
+    viewModel { (handle: SavedStateHandle) -> HomeViewModel(get(), get(), get(), get(), get(), get(), handle) }
     viewModel { SettingsViewModel(get(), get(), get()) }
     viewModel { FavoritesViewModel(get(), get()) }
     viewModel { ArchiveViewModel(get(), get()) }
+    viewModel { BackgroundViewModel(get(), get(), get()) }
 
     single { NotificationProvider(androidContext()) }
 

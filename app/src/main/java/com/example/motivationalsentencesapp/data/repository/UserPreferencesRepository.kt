@@ -4,6 +4,7 @@ import com.example.motivationalsentencesapp.data.model.NotificationPreferences
 import kotlinx.coroutines.flow.Flow
 
 interface UserPreferencesRepository {
+    val selectedBackgroundResId: Flow<Int>
     val userPreferences: Flow<NotificationPreferences>
 
     suspend fun updateNotificationPreferences(
@@ -14,5 +15,7 @@ interface UserPreferencesRepository {
 
     fun isOnboardingCompleted(): Flow<Boolean>
 
-    suspend fun setOnboardingCompleted(completed: Boolean)
+        suspend fun setOnboardingCompleted(completed: Boolean)
+
+    suspend fun updateSelectedBackground(backgroundResId: Int)
 }

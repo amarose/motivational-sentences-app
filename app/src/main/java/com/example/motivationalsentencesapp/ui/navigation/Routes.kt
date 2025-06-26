@@ -25,6 +25,10 @@ object Routes {
         const val ROUTE = "archive"
     }
 
+    object Background {
+        const val ROUTE = "background"
+    }
+
     object Settings {
         const val ROUTE = "settings"
     }

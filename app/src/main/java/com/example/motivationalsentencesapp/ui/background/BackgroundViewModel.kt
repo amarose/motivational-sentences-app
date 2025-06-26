@@ -1,0 +1,53 @@
+package com.example.motivationalsentencesapp.ui.background
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.motivationalsentencesapp.data.model.Background
+import com.example.motivationalsentencesapp.domain.usecase.GetAvailableBackgroundsUseCase
+import com.example.motivationalsentencesapp.domain.usecase.GetSelectedBackgroundUseCase
+import com.example.motivationalsentencesapp.domain.usecase.UpdateSelectedBackgroundUseCase
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+
+data class BackgroundUiState(
+    val backgrounds: List<Background> = emptyList(),
+    val selectedBackgroundResId: Int? = null
+)
+
+class BackgroundViewModel(
+    private val getAvailableBackgroundsUseCase: GetAvailableBackgroundsUseCase,
+    private val getSelectedBackgroundUseCase: GetSelectedBackgroundUseCase,
+    private val updateSelectedBackgroundUseCase: UpdateSelectedBackgroundUseCase
+) : ViewModel() {
+
+    private val _uiState = MutableStateFlow(BackgroundUiState())
+    val uiState: StateFlow<BackgroundUiState> = _uiState.asStateFlow()
+
+    init {
+        loadBackgrounds()
+        observeSelectedBackground()
+    }
+
+    private fun loadBackgrounds() {
+        val backgrounds = getAvailableBackgroundsUseCase()
+        _uiState.value = _uiState.value.copy(backgrounds = backgrounds)
+    }
+
+    private fun observeSelectedBackground() {
+        getSelectedBackgroundUseCase()
+            .onEach { resId ->
+                _uiState.value = _uiState.value.copy(selectedBackgroundResId = resId)
+            }
+            .launchIn(viewModelScope)
+    }
+
+    fun onBackgroundSelected(backgroundResId: Int) {
+        viewModelScope.launch {
+            updateSelectedBackgroundUseCase(backgroundResId)
+        }
+    }
+}

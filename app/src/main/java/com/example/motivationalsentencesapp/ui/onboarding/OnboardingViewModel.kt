@@ -29,7 +29,7 @@ data class OnboardingUiState(
     val isSaveEnabled: Boolean = true,
     val errorMessage: String? = null,
     val showExactAlarmPermissionDialog: Boolean = false,
-    val showBatteryOptimizationDialog: Boolean = false,
+
     val onboardingComplete: Boolean = false
 )
 
@@ -128,14 +128,7 @@ class OnboardingViewModel(
             }
         }
 
-        // Finally, check for battery optimization exemption.
-        val powerManager = getApplication<Application>().getSystemService(Context.POWER_SERVICE) as PowerManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!powerManager.isIgnoringBatteryOptimizations(getApplication<Application>().packageName)) {
-                _uiState.update { it.copy(showBatteryOptimizationDialog = true) }
-                return
-            }
-        }
+
 
         saveAndSchedule(currentState)
     }
@@ -157,18 +150,6 @@ class OnboardingViewModel(
 
     fun onExactAlarmPermissionDialogDismissed() {
         _uiState.update { it.copy(showExactAlarmPermissionDialog = false) }
-    }
-
-    fun onBatteryOptimizationDialogDismissed() {
-        _uiState.update { it.copy(showBatteryOptimizationDialog = false) }
-    }
-
-    fun onReturnedFromBatterySettings() {
-        Log.d("OnboardingViewModel", "Returned from battery settings, re-evaluating.")
-        viewModelScope.launch {
-            delay(500) // Give the system time to process the change
-            onSavePreferences()
-        }
     }
 
     fun onReturnedFromSettings() {

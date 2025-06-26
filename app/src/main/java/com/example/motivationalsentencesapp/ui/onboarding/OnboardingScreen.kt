@@ -62,12 +62,6 @@ fun OnboardingScreen(
         onResult = { viewModel.onReturnedFromSettings() }
     )
 
-    val batterySettingsLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) {
-        viewModel.onReturnedFromBatterySettings()
-    }
-
     LaunchedEffect(launchPermissionRequest) {
         if (launchPermissionRequest) {
             permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -100,32 +94,6 @@ fun OnboardingScreen(
             },
             dismissButton = {
                 Button(onClick = { viewModel.onExactAlarmPermissionDialogDismissed() }) {
-                    Text(stringResource(R.string.cancel))
-                }
-            }
-        )
-    }
-
-    if (uiState.showBatteryOptimizationDialog) {
-        AlertDialog(
-            onDismissRequest = { viewModel.onBatteryOptimizationDialogDismissed() },
-            title = { Text(stringResource(R.string.battery_optimization_title)) },
-            text = { Text(stringResource(R.string.battery_optimization_description)) },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                            data = Uri.fromParts("package", context.packageName, null)
-                        }
-                        batterySettingsLauncher.launch(intent)
-                        viewModel.onBatteryOptimizationDialogDismissed()
-                    }
-                ) {
-                    Text(stringResource(R.string.go_to_settings))
-                }
-            },
-            dismissButton = {
-                Button(onClick = { viewModel.onBatteryOptimizationDialogDismissed() }) {
                     Text(stringResource(R.string.cancel))
                 }
             }

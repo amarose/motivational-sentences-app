@@ -7,19 +7,27 @@ import com.example.motivationalsentencesapp.data.model.Quote
 import com.example.motivationalsentencesapp.ui.navigation.Routes
 import com.example.motivationalsentencesapp.domain.usecase.ArchiveQuoteUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetQuoteByIdUseCase
+import com.example.motivationalsentencesapp.domain.usecase.GetSelectedBackgroundUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetRandomQuoteUseCase
 import com.example.motivationalsentencesapp.domain.usecase.UpdateQuoteUseCase
 import com.example.motivationalsentencesapp.ui.notification.NotificationProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
+sealed class HomeViewEffect {
+    data class ShareQuote(val text: String) : HomeViewEffect()
+}
+
 data class HomeUiState(
-    val quote: Quote? = null
+    val quote: Quote? = null,
+    val backgroundResId: Int? = null
 )
 
 class HomeViewModel(
@@ -27,12 +35,16 @@ class HomeViewModel(
     private val updateQuoteUseCase: UpdateQuoteUseCase,
     private val getQuoteByIdUseCase: GetQuoteByIdUseCase,
     private val archiveQuoteUseCase: ArchiveQuoteUseCase,
+    private val getSelectedBackgroundUseCase: GetSelectedBackgroundUseCase,
     private val notificationProvider: NotificationProvider,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
+
+    private val _effect = MutableSharedFlow<HomeViewEffect>()
+    val effect = _effect.asSharedFlow()
 
     private var quoteJob: Job? = null
 
@@ -44,6 +56,7 @@ class HomeViewModel(
         } else {
             loadRandomQuote()
         }
+        observeSelectedBackground()
     }
 
     fun loadRandomQuote() {
@@ -65,11 +78,30 @@ class HomeViewModel(
             .launchIn(viewModelScope)
     }
 
+        private fun observeSelectedBackground() {
+        getSelectedBackgroundUseCase()
+            .onEach { resId ->
+                _uiState.value = _uiState.value.copy(backgroundResId = resId)
+            }
+            .launchIn(viewModelScope)
+    }
+
     fun onToggleFavorite(quote: Quote) {
         viewModelScope.launch {
             val updatedQuote = quote.copy(isFavorite = !quote.isFavorite)
             updateQuoteUseCase(updatedQuote)
             _uiState.value = _uiState.value.copy(quote = updatedQuote)
+        }
+    }
+
+    fun onShareClicked() {
+        viewModelScope.launch {
+            _uiState.value.quote?.let {
+                val quoteText = "\"${it.text}\" - ${it.author}"
+                val promoText = "Pobierz tą aplikację zupełnie za darmo i czerp z niej motywację do działania - 'TODO wkleić link do aplikacji jak juz bedzie na play store'"
+                val shareText = "$quoteText\n\n$promoText"
+                _effect.emit(HomeViewEffect.ShareQuote(shareText))
+            }
         }
     }
 
