@@ -1,31 +1,39 @@
 package com.example.motivationalsentencesapp.ui.settings
 
-import android.annotation.SuppressLint
 import android.app.TimePickerDialog
+import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import android.widget.Toast
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -38,9 +46,11 @@ fun SettingsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val showSaveConfirmation by viewModel.showSaveConfirmation.collectAsState()
+    val showDuplicateTimeError by viewModel.showDuplicateTimeError.collectAsState()
 
     val context = LocalContext.current
     val savedMessage = stringResource(id = R.string.changes_saved)
+    val duplicateTimeMessage = stringResource(id = R.string.duplicate_notification_time_error)
 
     LaunchedEffect(showSaveConfirmation) {
         if (showSaveConfirmation) {
@@ -49,12 +59,15 @@ fun SettingsScreen(
         }
     }
 
+    LaunchedEffect(showDuplicateTimeError) {
+        if (showDuplicateTimeError) {
+            Toast.makeText(context, duplicateTimeMessage, Toast.LENGTH_LONG).show()
+            viewModel.onDuplicateTimeErrorShown()
+        }
+    }
+
     if (uiState.isLoading) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
     } else {
@@ -63,6 +76,7 @@ fun SettingsScreen(
             onNotificationsEnabledChanged = viewModel::onNotificationsEnabledChanged,
             onNotificationTimeChanged = viewModel::onNotificationTimeChanged,
             onNotificationQuantityChanged = viewModel::onNotificationQuantityChanged,
+            onColorSelected = viewModel::onColorSelected,
             onSave = viewModel::savePreferences
         )
     }
@@ -74,6 +88,7 @@ private fun SettingsContent(
     onNotificationsEnabledChanged: (Boolean) -> Unit,
     onNotificationTimeChanged: (Int, String) -> Unit,
     onNotificationQuantityChanged: (Int) -> Unit,
+    onColorSelected: (Int) -> Unit,
     onSave: () -> Unit
 ) {
     Column(
@@ -81,28 +96,41 @@ private fun SettingsContent(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Column(
+        LazyColumn(
             modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            NotificationSettingsCard(
-                notificationsEnabled = uiState.notificationsEnabled,
-                onNotificationsEnabledChanged = onNotificationsEnabledChanged
-            )
-
-            QuantitySettingsCard(
-                notificationQuantity = uiState.notificationQuantity,
-                onNotificationQuantityChanged = onNotificationQuantityChanged
-            )
-
-            if (uiState.notificationsEnabled) {
-                TimeSettingsCard(
-                    notificationTimes = uiState.notificationTimes,
-                    onNotificationTimeChanged = onNotificationTimeChanged
+            item {
+                ColorPickerCard(
+                    selectedColor = uiState.selectedTextColor,
+                    onColorSelected = onColorSelected
                 )
             }
-        }
 
+            item {
+                NotificationSettingsCard(
+                    notificationsEnabled = uiState.notificationsEnabled,
+                    onNotificationsEnabledChanged = onNotificationsEnabledChanged
+                )
+            }
+
+            if (uiState.notificationsEnabled) {
+                item {
+                    NotificationQuantitySettingsCard(
+                        notificationQuantity = uiState.notificationQuantity,
+                        onNotificationQuantityChanged = onNotificationQuantityChanged
+                    )
+                }
+
+                items(uiState.notificationQuantity) { index ->
+                    NotificationTimeSettingsCard(
+                        index = index,
+                        time = uiState.notificationTimes.getOrElse(index) { "09:00" },
+                        onNotificationTimeChanged = onNotificationTimeChanged
+                    )
+                }
+            }
+        }
         Button(
             onClick = onSave,
             modifier = Modifier
@@ -110,6 +138,68 @@ private fun SettingsContent(
                 .padding(vertical = 8.dp)
         ) {
             Text(stringResource(R.string.save))
+        }
+    }
+}
+
+@Composable
+private fun ColorPickerCard(selectedColor: Int, onColorSelected: (Int) -> Unit) {
+    val colors = listOf(
+        Color.White,
+        Color.Black,
+        Color.Red,
+        Color.Green,
+        Color.Blue,
+        Color(0xFFFFD700) // Gold
+    )
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(4.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                text = "Kolor tekstu",
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                colors.forEach { color ->
+                    ColorCircle(
+                        color = color,
+                        isSelected = selectedColor == color.toArgb(),
+                        onClick = { onColorSelected(color.toArgb()) }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ColorCircle(color: Color, isSelected: Boolean, onClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .size(40.dp)
+            .clip(CircleShape)
+            .background(color)
+            .clickable(onClick = onClick)
+            .border(
+                width = 2.dp,
+                color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
+                shape = CircleShape
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        if (isSelected) {
+            Icon(
+                imageVector = Icons.Default.Check,
+                contentDescription = "Selected",
+                tint = if (color == Color.Black) Color.White else Color.Black
+            )
         }
     }
 }
@@ -127,10 +217,13 @@ private fun NotificationSettingsCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "Włącz powiadomienia", style = MaterialTheme.typography.bodyLarge)
+            Text(
+                text = stringResource(R.string.enable_notifications),
+                style = MaterialTheme.typography.bodyMedium
+            )
             Switch(
                 checked = notificationsEnabled,
                 onCheckedChange = onNotificationsEnabledChanged
@@ -140,70 +233,54 @@ private fun NotificationSettingsCard(
 }
 
 @Composable
-private fun TimeSettingsCard(
-    notificationTimes: List<String>,
+private fun NotificationTimeSettingsCard(
+    index: Int,
+    time: String,
     onNotificationTimeChanged: (Int, String) -> Unit
 ) {
+    val context = LocalContext.current
+
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(4.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 8.dp),
+        elevation = CardDefaults.cardElevation(2.dp)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Czas powiadomień", style = MaterialTheme.typography.bodyLarge)
-            Spacer(modifier = Modifier.height(8.dp))
-            notificationTimes.forEachIndexed { index, time ->
-                TimePickerRow(
-                    index = index,
-                    selectedTime = time,
-                    onTimeSelected = { newTime ->
-                        onNotificationTimeChanged(index, newTime)
-                    }
-                )
+        val timeParts = try {
+            time.split(":").map { it.toInt() }
+        } catch (_: Exception) {
+            listOf(9, 0) // Default time
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Powiadomienie ${index + 1}",
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Button(onClick = {
+                TimePickerDialog(
+                    context,
+                    { _, hour, minute ->
+                        onNotificationTimeChanged(index, String.format("%02d:%02d", hour, minute))
+                    },
+                    timeParts.getOrElse(0) { 9 },
+                    timeParts.getOrElse(1) { 0 },
+                    true
+                ).show()
+            }) {
+                Text(text = time)
             }
         }
     }
 }
 
-@SuppressLint("DefaultLocale")
 @Composable
-private fun TimePickerRow(
-    index: Int,
-    selectedTime: String,
-    onTimeSelected: (String) -> Unit
-) {
-    val context = LocalContext.current
-    val (hour, minute) = try {
-        selectedTime.split(":").map { it.toInt() }
-    } catch (_: Exception) {
-        listOf(9, 0) // Default time if format is incorrect
-    }
-
-    val timePickerDialog = TimePickerDialog(
-        context,
-        { _, selectedHour: Int, selectedMinute: Int ->
-            onTimeSelected(String.format("%02d:%02d", selectedHour, selectedMinute))
-        },
-        hour,
-        minute,
-        true
-    )
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(text = "Powiadomienie #${index + 1}", style = MaterialTheme.typography.bodyMedium)
-        TextButton(onClick = { timePickerDialog.show() }) {
-            Text(text = selectedTime, style = MaterialTheme.typography.bodyLarge)
-        }
-    }
-}
-
-@Composable
-private fun QuantitySettingsCard(
+private fun NotificationQuantitySettingsCard(
     notificationQuantity: Int,
     onNotificationQuantityChanged: (Int) -> Unit
 ) {
@@ -211,24 +288,35 @@ private fun QuantitySettingsCard(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(text = "Ilość powiadomień dziennie", style = MaterialTheme.typography.bodyLarge)
-                Text(text = notificationQuantity.toString(), style = MaterialTheme.typography.bodyLarge)
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Slider(
-                value = notificationQuantity.toFloat(),
-                onValueChange = { onNotificationQuantityChanged(it.toInt()) },
-                valueRange = 1f..3f,
-                steps = 1
+            Text(
+                text = stringResource(R.string.notification_quantity),
+                style = MaterialTheme.typography.bodyMedium
             )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Button(
+                    onClick = { onNotificationQuantityChanged(maxOf(1, notificationQuantity - 1)) },
+                    enabled = notificationQuantity > 1
+                ) {
+                    Text("-")
+                }
+                Text(
+                    text = notificationQuantity.toString(),
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+                Button(
+                    onClick = { onNotificationQuantityChanged(minOf(3, notificationQuantity + 1)) },
+                    enabled = notificationQuantity < 3
+                ) {
+                    Text("+")
+                }
+            }
         }
     }
 }

@@ -13,6 +13,7 @@ import androidx.room.Room
 import com.example.motivationalsentencesapp.data.local.AppDatabase
 import com.example.motivationalsentencesapp.data.repository.ArchiveRepository
 import com.example.motivationalsentencesapp.data.repository.ArchiveRepositoryImpl
+import com.example.motivationalsentencesapp.data.datastore.SettingsDataStore
 import com.example.motivationalsentencesapp.ui.archive.ArchiveViewModel
 import com.example.motivationalsentencesapp.ui.background.BackgroundViewModel
 import com.example.motivationalsentencesapp.ui.favorites.FavoritesViewModel
@@ -36,11 +37,12 @@ val appModule = module {
     single<QuoteRepository> { QuoteRepositoryImpl(get()) }
     single<ArchiveRepository> { ArchiveRepositoryImpl(get()) }
     single<NotificationScheduler> { NotificationSchedulerWorkManagerImpl(androidContext(), get()) }
+    single { SettingsDataStore(androidContext()) }
 
     // Database
-        single {
-            Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "app-database")
-                .fallbackToDestructiveMigration(false)
+    single {
+        Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "app-database")
+            .fallbackToDestructiveMigration(false)
             .build()
     }
     single { get<AppDatabase>().quoteDao() }
@@ -65,13 +67,20 @@ val appModule = module {
     // Presentation Layer
     viewModel { MainViewModel(get()) }
     viewModel { OnboardingViewModel(androidApplication(), get(), get(), get()) }
-    viewModel { (handle: SavedStateHandle) -> HomeViewModel(get(), get(), get(), get(), get(), get()) }
-    viewModel { SettingsViewModel(get(), get(), get()) }
+    viewModel { (savedStateHandle: SavedStateHandle) ->
+        HomeViewModel(
+            getRandomQuoteUseCase = get(),
+            updateQuoteUseCase = get(),
+            getQuoteByIdUseCase = get(),
+            archiveQuoteUseCase = get(),
+            getSelectedBackgroundUseCase = get(),
+            settingsDataStore = get(),
+            savedStateHandle = savedStateHandle
+        )
+    }
+    viewModel { SettingsViewModel(get(), get(), get(), get()) }
     viewModel { FavoritesViewModel(get(), get()) }
     viewModel { ArchiveViewModel(get(), get()) }
     viewModel { BackgroundViewModel(get(), get(), get()) }
     worker { NotificationWorker(get(), get()) }
-
-
-
 }

@@ -55,7 +55,7 @@ private fun QuoteItem(quote: Quote, onToggleFavorite: () -> Unit) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
                 text = quote.text,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )

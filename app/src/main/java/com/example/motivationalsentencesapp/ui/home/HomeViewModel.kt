@@ -3,17 +3,18 @@ package com.example.motivationalsentencesapp.ui.home
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.motivationalsentencesapp.data.datastore.SettingsDataStore
 import com.example.motivationalsentencesapp.data.model.Quote
-import com.example.motivationalsentencesapp.ui.navigation.Routes
 import com.example.motivationalsentencesapp.domain.usecase.ArchiveQuoteUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetQuoteByIdUseCase
-import com.example.motivationalsentencesapp.domain.usecase.GetSelectedBackgroundUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetRandomQuoteUseCase
+import com.example.motivationalsentencesapp.domain.usecase.GetSelectedBackgroundUseCase
 import com.example.motivationalsentencesapp.domain.usecase.UpdateQuoteUseCase
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import com.example.motivationalsentencesapp.ui.navigation.Routes
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -26,7 +27,8 @@ sealed class HomeViewEffect {
 
 data class HomeUiState(
     val quote: Quote? = null,
-    val backgroundResId: Int? = null
+    val backgroundResId: Int? = null,
+    val textColor: Int = android.graphics.Color.WHITE
 )
 
 class HomeViewModel(
@@ -35,7 +37,7 @@ class HomeViewModel(
     private val getQuoteByIdUseCase: GetQuoteByIdUseCase,
     private val archiveQuoteUseCase: ArchiveQuoteUseCase,
     private val getSelectedBackgroundUseCase: GetSelectedBackgroundUseCase,
-
+    private val settingsDataStore: SettingsDataStore,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -56,6 +58,7 @@ class HomeViewModel(
             loadRandomQuote()
         }
         observeSelectedBackground()
+        observeTextColor()
     }
 
     fun loadRandomQuote() {
@@ -77,7 +80,7 @@ class HomeViewModel(
             .launchIn(viewModelScope)
     }
 
-        private fun observeSelectedBackground() {
+    private fun observeSelectedBackground() {
         getSelectedBackgroundUseCase()
             .onEach { resId ->
                 _uiState.value = _uiState.value.copy(backgroundResId = resId)
@@ -97,11 +100,20 @@ class HomeViewModel(
         viewModelScope.launch {
             _uiState.value.quote?.let {
                 val quoteText = "\"${it.text}\""
-                val promoText = "Pobierz tą aplikację zupełnie za darmo i czerp z niej motywację do działania - 'TODO wkleić link do aplikacji jak juz bedzie na play store'"
+                val promoText =
+                    "Pobierz tą aplikację zupełnie za darmo i czerp z niej motywację do działania - 'TODO wkleić link do aplikacji jak juz bedzie na play store'"
                 val shareText = "$quoteText\n\n$promoText"
                 _effect.emit(HomeViewEffect.ShareQuote(shareText))
             }
         }
+    }
+
+    private fun observeTextColor() {
+        settingsDataStore.textColorFlow
+            .onEach { color ->
+                _uiState.value = _uiState.value.copy(textColor = color)
+            }
+            .launchIn(viewModelScope)
     }
 
 }

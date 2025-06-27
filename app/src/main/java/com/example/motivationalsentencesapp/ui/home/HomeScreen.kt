@@ -86,6 +86,7 @@ fun HomeScreen(
                 verticalArrangement = Arrangement.Center
             ) {
                 uiState.quote?.let { quote ->
+                    val textColor = Color(uiState.textColor)
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(36.dp))
@@ -96,7 +97,7 @@ fun HomeScreen(
                             text = quote.text,
                             style = MaterialTheme.typography.bodyLarge,
                             textAlign = TextAlign.Center,
-                            color = Color.White,
+                            color = textColor,
                         )
                     }
 
@@ -110,7 +111,7 @@ fun HomeScreen(
                         Icon(
                             imageVector = if (quote.isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
                             contentDescription = "Ulubione",
-                            tint = Color.White,
+                            tint = textColor,
                             modifier = Modifier
                                 .size(36.dp)
                                 .clickable { viewModel.onToggleFavorite(quote) }
@@ -118,7 +119,7 @@ fun HomeScreen(
                         Icon(
                             imageVector = Icons.Default.Refresh,
                             contentDescription = "Odśwież",
-                            tint = Color.White,
+                            tint = textColor,
                             modifier = Modifier
                                 .size(36.dp)
                                 .clickable { viewModel.loadRandomQuote() }
@@ -126,7 +127,7 @@ fun HomeScreen(
                         Icon(
                             imageVector = Icons.Default.Share,
                             contentDescription = "Udostępnij",
-                            tint = Color.White,
+                            tint = textColor,
                             modifier = Modifier
                                 .size(36.dp)
                                 .clickable { viewModel.onShareClicked() }

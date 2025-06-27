@@ -69,7 +69,7 @@ fun ArchivedQuoteItem(quote: ArchivedQuote) {
         ) {
             Text(
                 text = quote.text,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
             Text(
