@@ -16,8 +16,15 @@ private val LucidaCalligraphy = FontFamily(
 val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = LucidaCalligraphy,
+        fontWeight = FontWeight.Bold,
+        fontSize = 36.sp,
+        lineHeight = 60.sp,
+        letterSpacing = 0.7.sp
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = LucidaCalligraphy,
         fontWeight = FontWeight.Normal,
-        fontSize = 24.sp,
+        fontSize = 18.sp,
         lineHeight = 32.sp,
         letterSpacing = 0.5.sp
     ),

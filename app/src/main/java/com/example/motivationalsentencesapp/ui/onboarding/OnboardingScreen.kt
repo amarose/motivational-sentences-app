@@ -3,10 +3,7 @@ package com.example.motivationalsentencesapp.ui.onboarding
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.TimePickerDialog
-import android.content.Intent
-import android.net.Uri
 import android.os.Build
-import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -18,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -34,10 +30,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
-import com.example.motivationalsentencesapp.R
 import org.koin.androidx.compose.koinViewModel
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -54,7 +48,6 @@ fun OnboardingScreen(
     )
 
     val uiState by viewModel.uiState.collectAsState()
-    val context = LocalContext.current
     val launchPermissionRequest by viewModel.launchPermissionRequest.collectAsState()
 
     LaunchedEffect(launchPermissionRequest) {
@@ -92,9 +85,9 @@ private fun OnboardingContent(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Witaj!", style = MaterialTheme.typography.headlineMedium)
+        Text("Witaj!", style = MaterialTheme.typography.bodyMedium)
         Spacer(modifier = Modifier.height(16.dp))
-        Text("Ustaw swoje preferencje powiadomień, aby rozpocząć.")
+        Text("Ustaw swoje preferencje, aby rozpocząć.", style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.height(32.dp))
 
         Column(
@@ -148,7 +141,7 @@ private fun NotificationSettingsCard(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "Włącz powiadomienia", style = MaterialTheme.typography.bodyLarge)
+            Text(text = "Włącz powiadomienia", style = MaterialTheme.typography.bodyMedium)
             Switch(
                 checked = notificationsEnabled,
                 onCheckedChange = onNotificationsEnabledChanged
@@ -174,8 +167,8 @@ private fun QuantitySettingsCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "Ilość powiadomień dziennie", style = MaterialTheme.typography.bodyLarge)
-                Text(text = notificationQuantity.toString(), style = MaterialTheme.typography.bodyLarge)
+                Text(text = "Ilość powiadomień dziennie", style = MaterialTheme.typography.bodyMedium)
+                Text(text = notificationQuantity.toString(), style = MaterialTheme.typography.bodyMedium)
             }
             Spacer(modifier = Modifier.height(8.dp))
             Slider(
@@ -199,7 +192,7 @@ private fun TimeSettingsCard(
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Czas powiadomień", style = MaterialTheme.typography.bodyLarge)
+            Text(text = "Czas powiadomień", style = MaterialTheme.typography.bodyMedium)
             Spacer(modifier = Modifier.height(8.dp))
             notificationTimes.forEachIndexed { index, time ->
                 TimePickerRow(
@@ -255,7 +248,7 @@ private fun TimePickerRow(
     ) {
         Text(text = "Powiadomienie #${index + 1}", style = MaterialTheme.typography.bodyMedium)
         TextButton(onClick = { timePickerDialog.show() }) {
-            Text(text = selectedTime, style = MaterialTheme.typography.bodyLarge)
+            Text(text = selectedTime, style = MaterialTheme.typography.bodyMedium)
         }
     }
 }

@@ -29,7 +29,7 @@ class UserPreferencesRepositoryImpl(
 
     override val selectedBackgroundResId: Flow<Int> = context.dataStore.data
         .map { preferences ->
-            preferences[PreferencesKeys.SELECTED_BACKGROUND_RES_ID] ?: R.drawable.img1
+            preferences[PreferencesKeys.SELECTED_BACKGROUND_RES_ID] ?: R.mipmap.img1
         }
 
     override val userPreferences: Flow<NotificationPreferences> = context.dataStore.data

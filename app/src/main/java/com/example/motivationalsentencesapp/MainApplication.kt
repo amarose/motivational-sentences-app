@@ -24,7 +24,7 @@ class MainApplication : Application() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "Motivational Quotes"
             val descriptionText = "Channel for daily motivational quotes"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel("motivational_quotes_channel", name, importance).apply {
                 description = descriptionText
             }

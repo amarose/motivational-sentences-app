@@ -31,7 +31,7 @@ class NotificationWorker(
                     .setContentText("\"${it.text}\"")
                     .setStyle(NotificationCompat.BigTextStyle()
                         .bigText("\"${it.text}\""))
-                    .setPriority(NotificationCompat.PRIORITY_MAX)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setAutoCancel(true)
                     .build()
 
