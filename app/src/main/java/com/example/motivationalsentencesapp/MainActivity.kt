@@ -1,35 +1,49 @@
 package com.example.motivationalsentencesapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.motivationalsentencesapp.ui.mainscreen.MainScreen
-import com.example.motivationalsentencesapp.ui.navigation.Routes
+import com.example.motivationalsentencesapp.ui.archive.ArchiveScreen
+import com.example.motivationalsentencesapp.ui.background.BackgroundScreen
+import com.example.motivationalsentencesapp.ui.favorites.FavoritesScreen
+import com.example.motivationalsentencesapp.ui.home.HomeScreen
 import com.example.motivationalsentencesapp.ui.main.MainViewModel
+import com.example.motivationalsentencesapp.ui.navigation.BottomNavItem
+import com.example.motivationalsentencesapp.ui.navigation.Routes
 import com.example.motivationalsentencesapp.ui.onboarding.OnboardingScreen
+import com.example.motivationalsentencesapp.ui.settings.SettingsScreen
 import com.example.motivationalsentencesapp.ui.theme.MotivationalSentencesAppTheme
 import org.koin.androidx.compose.koinViewModel
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
 
         val quoteId = intent.getIntExtra(EXTRA_QUOTE_ID, -1)
         val quoteText = intent.getStringExtra(EXTRA_QUOTE_TEXT)
@@ -42,7 +56,6 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     MotivationalApp(
-                        viewModel = koinViewModel(),
                         quoteId = if (quoteId != -1) quoteId else null,
                         quoteText = quoteText,
                         isFavorite = isFavorite
@@ -52,15 +65,18 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        recreate()
+    }
+
     companion object {
         const val EXTRA_QUOTE_ID = "EXTRA_QUOTE_ID"
         const val EXTRA_QUOTE_TEXT = "EXTRA_QUOTE_TEXT"
-
         const val EXTRA_IS_FAVORITE = "EXTRA_IS_FAVORITE"
     }
 }
-
-
 
 @Composable
 fun MotivationalApp(
@@ -72,7 +88,48 @@ fun MotivationalApp(
     val isOnboardingCompleted by viewModel.isOnboardingCompleted.collectAsState()
     val navController = rememberNavController()
 
-    Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+    val bottomNavItems = listOf(
+        BottomNavItem.Home,
+        BottomNavItem.Favorites,
+        BottomNavItem.Archive,
+        BottomNavItem.Background,
+        BottomNavItem.Settings
+    )
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+
+    Scaffold(
+        bottomBar = {
+            val showBottomBar = currentDestination?.hierarchy?.any { dest ->
+                bottomNavItems.any { item -> dest.route == item.route || dest.route?.startsWith(item.route + "?") == true }
+            } == true
+
+            if (showBottomBar) {
+                NavigationBar {
+                    bottomNavItems.forEach { screen ->
+                        val isSelected = currentDestination?.hierarchy?.any {
+                            it.route == screen.route || it.route?.startsWith(screen.route + "?") == true
+                        } == true
+                        NavigationBarItem(
+                            icon = { Icon(screen.icon, contentDescription = screen.title) },
+                            label = { Text(screen.title, maxLines = 1) },
+                            selected = isSelected,
+                            onClick = {
+                                navController.navigate(screen.route) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            }
+                        )
+                    }
+                }
+            }
+        }
+    ) { innerPadding ->
         when (isOnboardingCompleted) {
             null -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -84,7 +141,7 @@ fun MotivationalApp(
                     if (quoteId != null && quoteText != null) {
                         Routes.Home.withArgs(quoteId, quoteText, isFavorite)
                     } else {
-                        Routes.MAIN
+                        Routes.Home.ROUTE_BASE
                     }
                 } else {
                     Routes.ONBOARDING
@@ -92,28 +149,34 @@ fun MotivationalApp(
 
                 NavHost(
                     navController = navController,
-                    startDestination = startDestination
+                    startDestination = startDestination,
+                    modifier = Modifier.padding(innerPadding)
                 ) {
                     composable(Routes.ONBOARDING) {
                         OnboardingScreen(onOnboardingComplete = {
-                            navController.navigate(Routes.MAIN) {
+                            navController.navigate(Routes.Home.ROUTE_BASE) {
                                 popUpTo(Routes.ONBOARDING) { inclusive = true }
                             }
                         })
                     }
-                    composable(Routes.MAIN) {
-                        MainScreen()
-                    }
                     composable(
                         route = Routes.Home.ROUTE_TEMPLATE,
                         arguments = listOf(
-                            navArgument(Routes.Home.ARG_QUOTE_ID) { type = NavType.IntType },
-                            navArgument(Routes.Home.ARG_QUOTE_TEXT) { type = NavType.StringType },
-                            navArgument(Routes.Home.ARG_IS_FAVORITE) { type = NavType.BoolType }
+                            navArgument(Routes.Home.ARG_QUOTE_ID) { type = NavType.IntType; defaultValue = -1 },
+                            navArgument(Routes.Home.ARG_QUOTE_TEXT) { type = NavType.StringType; nullable = true },
+                            navArgument(Routes.Home.ARG_IS_FAVORITE) { type = NavType.BoolType; defaultValue = false }
                         )
-                    ) {
-                        MainScreen()
+                    ) { backStackEntry ->
+                        HomeScreen(
+                            quoteId = backStackEntry.arguments?.getInt(Routes.Home.ARG_QUOTE_ID) ?: -1,
+                            quoteText = backStackEntry.arguments?.getString(Routes.Home.ARG_QUOTE_TEXT),
+                            isFavorite = backStackEntry.arguments?.getBoolean(Routes.Home.ARG_IS_FAVORITE) ?: false
+                        )
                     }
+                    composable(Routes.Favorites.ROUTE) { FavoritesScreen() }
+                    composable(Routes.Archive.ROUTE) { ArchiveScreen() }
+                    composable(Routes.Settings.ROUTE) { SettingsScreen() }
+                    composable(Routes.Background.ROUTE) { BackgroundScreen() }
                 }
             }
         }

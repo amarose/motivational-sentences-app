@@ -44,10 +44,17 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = koinViewModel()
+    viewModel: HomeViewModel = koinViewModel(),
+    quoteId: Int,
+    quoteText: String?,
+    isFavorite: Boolean
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        viewModel.initialize(quoteId, quoteText, isFavorite)
+    }
 
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
@@ -144,7 +151,5 @@ fun HomeScreen(
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Home Screen Preview")
-    }
+    HomeScreen(quoteId = -1, quoteText = null, isFavorite = false)
 }

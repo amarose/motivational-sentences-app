@@ -67,15 +67,14 @@ val appModule = module {
     // Presentation Layer
     viewModel { MainViewModel(get()) }
     viewModel { OnboardingViewModel(androidApplication(), get(), get(), get()) }
-    viewModel { (savedStateHandle: SavedStateHandle) ->
+    viewModel {
         HomeViewModel(
             getRandomQuoteUseCase = get(),
             updateQuoteUseCase = get(),
             getQuoteByIdUseCase = get(),
             archiveQuoteUseCase = get(),
             getSelectedBackgroundUseCase = get(),
-            settingsDataStore = get(),
-            savedStateHandle = savedStateHandle
+            settingsDataStore = get()
         )
     }
     viewModel { SettingsViewModel(get(), get(), get(), get()) }

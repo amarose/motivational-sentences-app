@@ -1,6 +1,5 @@
 package com.example.motivationalsentencesapp.ui.home
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.motivationalsentencesapp.data.datastore.SettingsDataStore
@@ -10,7 +9,6 @@ import com.example.motivationalsentencesapp.domain.usecase.GetQuoteByIdUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetRandomQuoteUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetSelectedBackgroundUseCase
 import com.example.motivationalsentencesapp.domain.usecase.UpdateQuoteUseCase
-import com.example.motivationalsentencesapp.ui.navigation.Routes
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,8 +35,7 @@ class HomeViewModel(
     private val getQuoteByIdUseCase: GetQuoteByIdUseCase,
     private val archiveQuoteUseCase: ArchiveQuoteUseCase,
     private val getSelectedBackgroundUseCase: GetSelectedBackgroundUseCase,
-    private val settingsDataStore: SettingsDataStore,
-    savedStateHandle: SavedStateHandle
+    private val settingsDataStore: SettingsDataStore
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -48,17 +45,24 @@ class HomeViewModel(
     val effect = _effect.asSharedFlow()
 
     private var quoteJob: Job? = null
+    private var initialized = false
 
     init {
-        val quoteId = savedStateHandle.get<Int>(Routes.Home.ARG_QUOTE_ID) ?: -1
+        observeSelectedBackground()
+        observeTextColor()
+    }
 
-        if (quoteId != -1) {
+    fun initialize(quoteId: Int, quoteText: String?, isFavorite: Boolean) {
+        if (initialized) return
+        initialized = true
+
+        if (quoteId != -1 && quoteText != null) {
+            val quote = Quote(id = quoteId, text = quoteText, isFavorite = isFavorite)
+            _uiState.value = uiState.value.copy(quote = quote)
             observeQuote(quoteId)
         } else {
             loadRandomQuote()
         }
-        observeSelectedBackground()
-        observeTextColor()
     }
 
     fun loadRandomQuote() {
