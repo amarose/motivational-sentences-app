@@ -38,6 +38,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.motivationalsentencesapp.R
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -115,6 +118,10 @@ private fun SettingsContent(
             }
 
             if (uiState.notificationsEnabled) {
+                item {
+                    NextNotificationInfoCard(nextNotificationTime = uiState.nextNotificationTime)
+                }
+
                 item {
                     NotificationQuantitySettingsCard(
                         notificationQuantity = uiState.notificationQuantity,
@@ -275,6 +282,40 @@ private fun NotificationTimeSettingsCard(
             }) {
                 Text(text = time)
             }
+        }
+    }
+}
+
+@Composable
+private fun NextNotificationInfoCard(nextNotificationTime: Long?) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(4.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Next notification",
+                style = MaterialTheme.typography.bodyMedium
+            )
+            val text = if (nextNotificationTime != null) {
+                val instant = Instant.fromEpochMilliseconds(nextNotificationTime)
+                val dateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
+                val hour = dateTime.hour.toString().padStart(2, '0')
+                val minute = dateTime.minute.toString().padStart(2, '0')
+                "${dateTime.date} $hour:$minute"
+            } else {
+                "Not scheduled"
+            }
+            Text(
+                text = text,
+                style = MaterialTheme.typography.bodyMedium
+            )
         }
     }
 }

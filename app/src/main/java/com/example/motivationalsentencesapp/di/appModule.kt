@@ -6,13 +6,15 @@ import com.example.motivationalsentencesapp.data.repository.UserPreferencesRepos
 import com.example.motivationalsentencesapp.data.repository.UserPreferencesRepositoryImpl
 import com.example.motivationalsentencesapp.data.repository.QuoteRepository
 import com.example.motivationalsentencesapp.data.repository.QuoteRepositoryImpl
+import com.example.motivationalsentencesapp.data.repository.ArchiveRepository
+import com.example.motivationalsentencesapp.data.repository.ArchiveRepositoryImpl
 import com.example.motivationalsentencesapp.domain.usecase.*
+import com.example.motivationalsentencesapp.domain.usecase.GetNextNotificationTimeUseCase
+import com.example.motivationalsentencesapp.domain.usecase.GetNextNotificationTimeUseCaseImpl
 import androidx.lifecycle.SavedStateHandle
 import androidx.room.Room
 
 import com.example.motivationalsentencesapp.data.local.AppDatabase
-import com.example.motivationalsentencesapp.data.repository.ArchiveRepository
-import com.example.motivationalsentencesapp.data.repository.ArchiveRepositoryImpl
 import com.example.motivationalsentencesapp.data.datastore.SettingsDataStore
 import com.example.motivationalsentencesapp.ui.archive.ArchiveViewModel
 import com.example.motivationalsentencesapp.ui.background.BackgroundViewModel
@@ -63,6 +65,7 @@ val appModule = module {
     factory<GetSelectedBackgroundUseCase> { GetSelectedBackgroundUseCaseImpl(get()) }
     factory<UpdateSelectedBackgroundUseCase> { UpdateSelectedBackgroundUseCaseImpl(get()) }
     factory<GetAvailableBackgroundsUseCase> { GetAvailableBackgroundsUseCaseImpl() }
+    factory<GetNextNotificationTimeUseCase> { GetNextNotificationTimeUseCaseImpl(get()) }
 
     // Presentation Layer
     viewModel { MainViewModel(get()) }
@@ -77,7 +80,7 @@ val appModule = module {
             settingsDataStore = get()
         )
     }
-    viewModel { SettingsViewModel(get(), get(), get(), get()) }
+    viewModel { SettingsViewModel(get(), get(), get(), get(), get()) }
     viewModel { FavoritesViewModel(get(), get()) }
     viewModel { ArchiveViewModel(get(), get()) }
     viewModel { BackgroundViewModel(get(), get(), get()) }

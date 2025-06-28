@@ -44,7 +44,10 @@ fun ArchiveScreen(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = "Nie ma żadnych zarchiwizowanych cytatów.")
+            Text(text = "Nie ma żadnych zarchiwizowanych cytatów.",
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center
+            )
         }
     } else {
         LazyColumn(

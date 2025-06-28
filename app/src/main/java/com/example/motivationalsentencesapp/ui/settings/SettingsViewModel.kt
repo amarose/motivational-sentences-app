@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.motivationalsentencesapp.data.datastore.SettingsDataStore
 import com.example.motivationalsentencesapp.domain.usecase.GetNotificationPreferencesUseCase
+import com.example.motivationalsentencesapp.domain.usecase.GetNextNotificationTimeUseCase
 import com.example.motivationalsentencesapp.domain.usecase.UpdateNotificationPreferencesUseCase
 import com.example.motivationalsentencesapp.ui.notification.NotificationScheduler
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,8 @@ class SettingsViewModel(
     private val getNotificationPreferencesUseCase: GetNotificationPreferencesUseCase,
     private val updateNotificationPreferencesUseCase: UpdateNotificationPreferencesUseCase,
     private val notificationScheduler: NotificationScheduler,
-    private val settingsDataStore: SettingsDataStore
+    private val settingsDataStore: SettingsDataStore,
+    private val getNextNotificationTimeUseCase: GetNextNotificationTimeUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SettingsUiState(isLoading = true))
@@ -44,6 +46,7 @@ class SettingsViewModel(
                 selectedTextColor = textColor,
                 isLoading = false
             )
+            updateNextNotificationTime()
         }
     }
 
@@ -95,6 +98,7 @@ class SettingsViewModel(
                 )
                 settingsDataStore.saveTextColor(currentState.selectedTextColor)
                 notificationScheduler.reschedule()
+                updateNextNotificationTime()
                 _showSaveConfirmation.value = true
             }
         }
@@ -106,5 +110,12 @@ class SettingsViewModel(
 
     fun onDuplicateTimeErrorShown() {
         _showDuplicateTimeError.value = false
+    }
+
+    private fun updateNextNotificationTime() {
+        viewModelScope.launch {
+            val nextTime = getNextNotificationTimeUseCase()
+            _uiState.update { it.copy(nextNotificationTime = nextTime) }
+        }
     }
 }
