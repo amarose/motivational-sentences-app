@@ -45,7 +45,7 @@ fun ArchiveScreen(
             contentAlignment = Alignment.Center
         ) {
             Text(text = "Nie ma żadnych zarchiwizowanych cytatów.",
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center
             )
         }
