@@ -7,6 +7,8 @@ import com.example.motivationalsentencesapp.data.model.Quote
 import com.example.motivationalsentencesapp.domain.usecase.ArchiveQuoteUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetQuoteByIdUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetRandomQuoteUseCase
+import com.example.motivationalsentencesapp.domain.usecase.GetNextNotificationTimeUseCase
+import com.example.motivationalsentencesapp.domain.usecase.GetNotificationPreferencesUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetSelectedBackgroundUseCase
 import com.example.motivationalsentencesapp.domain.usecase.UpdateQuoteUseCase
 import kotlinx.coroutines.Job
@@ -26,7 +28,9 @@ sealed class HomeViewEffect {
 data class HomeUiState(
     val quote: Quote? = null,
     val backgroundResId: Int? = null,
-    val textColor: Int = android.graphics.Color.WHITE
+    val textColor: Int = android.graphics.Color.WHITE,
+    val nextNotificationTime: Long? = null,
+    val isLoading: Boolean = true
 )
 
 class HomeViewModel(
@@ -35,7 +39,9 @@ class HomeViewModel(
     private val getQuoteByIdUseCase: GetQuoteByIdUseCase,
     private val archiveQuoteUseCase: ArchiveQuoteUseCase,
     private val getSelectedBackgroundUseCase: GetSelectedBackgroundUseCase,
-    private val settingsDataStore: SettingsDataStore
+    private val settingsDataStore: SettingsDataStore,
+    private val getNextNotificationTimeUseCase: GetNextNotificationTimeUseCase,
+    private val getNotificationPreferencesUseCase: GetNotificationPreferencesUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -50,6 +56,7 @@ class HomeViewModel(
     init {
         observeSelectedBackground()
         observeTextColor()
+        observeNotificationPreferences()
     }
 
     fun initialize(quoteId: Int, quoteText: String?, isFavorite: Boolean) {
@@ -58,15 +65,14 @@ class HomeViewModel(
 
         if (quoteId != -1 && quoteText != null) {
             val quote = Quote(id = quoteId, text = quoteText, isFavorite = isFavorite)
-            _uiState.value = uiState.value.copy(quote = quote)
+            _uiState.value = uiState.value.copy(quote = quote, isLoading = false)
             observeQuote(quoteId)
-        } else {
-            loadRandomQuote()
         }
     }
 
     fun loadRandomQuote() {
         viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true, quote = null)
             val randomQuote = getRandomQuoteUseCase()
             observeQuote(randomQuote.id)
         }
@@ -77,7 +83,7 @@ class HomeViewModel(
         quoteJob = getQuoteByIdUseCase(id)
             .onEach { quote ->
                 quote?.let {
-                    _uiState.value = uiState.value.copy(quote = it)
+                    _uiState.value = uiState.value.copy(quote = it, isLoading = false)
                     archiveQuoteUseCase(it)
                 }
             }
@@ -109,6 +115,21 @@ class HomeViewModel(
                 val shareText = "$quoteText\n\n$promoText"
                 _effect.emit(HomeViewEffect.ShareQuote(shareText))
             }
+        }
+    }
+
+    private fun observeNotificationPreferences() {
+        getNotificationPreferencesUseCase()
+            .onEach {
+                loadNextNotificationTime()
+            }
+            .launchIn(viewModelScope)
+    }
+
+    private fun loadNextNotificationTime() {
+        viewModelScope.launch {
+            val nextTime = getNextNotificationTimeUseCase()
+            _uiState.value = _uiState.value.copy(nextNotificationTime = nextTime, isLoading = false)
         }
     }
 

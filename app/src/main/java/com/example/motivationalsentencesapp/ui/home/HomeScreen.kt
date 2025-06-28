@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,7 +17,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.CircularProgressIndicator
@@ -36,10 +34,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -82,9 +82,9 @@ fun HomeScreen(
             )
         }
 
-        if (uiState.quote == null) {
+        if (uiState.isLoading) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-        } else {
+        } else if (uiState.quote != null) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -123,14 +123,14 @@ fun HomeScreen(
                                 .size(36.dp)
                                 .clickable { viewModel.onToggleFavorite(quote) }
                         )
-                        Icon(
-                            imageVector = Icons.Default.Refresh,
-                            contentDescription = "Odśwież",
-                            tint = textColor,
-                            modifier = Modifier
-                                .size(36.dp)
-                                .clickable { viewModel.loadRandomQuote() }
-                        )
+//                        Icon(
+//                            imageVector = Icons.Default.Refresh,
+//                            contentDescription = "Odśwież",
+//                            tint = textColor,
+//                            modifier = Modifier
+//                                .size(36.dp)
+//                                .clickable { viewModel.loadRandomQuote() }
+//                        )
                         Icon(
                             imageVector = Icons.Default.Share,
                             contentDescription = "Udostępnij",
@@ -142,6 +142,39 @@ fun HomeScreen(
                     }
 
                     Spacer(modifier = Modifier.height(32.dp))
+                }
+            }
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(36.dp))
+                        .background(Color.Black.copy(alpha = 0.5f))
+                        .padding(horizontal = 16.dp, vertical = 4.dp),
+                ) {
+                    val textColor = Color(uiState.textColor)
+                    val nextNotificationTime = uiState.nextNotificationTime
+                    val text = if (nextNotificationTime != null) {
+                        val instant = Instant.fromEpochMilliseconds(nextNotificationTime)
+                        val dateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
+                        val hour = dateTime.hour.toString().padStart(2, '0')
+                        val minute = dateTime.minute.toString().padStart(2, '0')
+                        "Następna notyfikacja z cytatem zaplanowana jest na\n${dateTime.date} $hour:$minute"
+                    } else {
+                        "Brak zaplanowanych notyfikacji. Możesz je włączyć w ustawieniach."
+                    }
+                    Text(
+                        text = text,
+                        style = MaterialTheme.typography.bodyLarge,
+                        textAlign = TextAlign.Center,
+                        color = textColor,
+                    )
                 }
             }
         }

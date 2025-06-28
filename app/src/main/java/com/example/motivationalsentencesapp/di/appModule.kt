@@ -77,10 +77,12 @@ val appModule = module {
             getQuoteByIdUseCase = get(),
             archiveQuoteUseCase = get(),
             getSelectedBackgroundUseCase = get(),
-            settingsDataStore = get()
+            settingsDataStore = get(),
+            getNextNotificationTimeUseCase = get(),
+            getNotificationPreferencesUseCase = get()
         )
     }
-    viewModel { SettingsViewModel(get(), get(), get(), get(), get()) }
+    viewModel { SettingsViewModel(get(), get(), get(), get()) }
     viewModel { FavoritesViewModel(get(), get()) }
     viewModel { ArchiveViewModel(get(), get()) }
     viewModel { BackgroundViewModel(get(), get(), get()) }
