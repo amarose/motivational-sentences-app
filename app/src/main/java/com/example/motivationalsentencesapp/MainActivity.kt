@@ -184,9 +184,9 @@ fun MotivationalApp(
                         )
                     ) { backStackEntry ->
                         HomeScreen(
-                            quoteId = backStackEntry.arguments?.getInt(Routes.Home.ARG_QUOTE_ID) ?: -1,
-                            quoteText = backStackEntry.arguments?.getString(Routes.Home.ARG_QUOTE_TEXT),
-                            isFavorite = backStackEntry.arguments?.getBoolean(Routes.Home.ARG_IS_FAVORITE) == true
+//                            quoteId = backStackEntry.arguments?.getInt(Routes.Home.ARG_QUOTE_ID) ?: -1,
+//                            quoteText = backStackEntry.arguments?.getString(Routes.Home.ARG_QUOTE_TEXT),
+//                            isFavorite = backStackEntry.arguments?.getBoolean(Routes.Home.ARG_IS_FAVORITE) == true
                         )
                     }
                     composable(Routes.Favorites.ROUTE) { FavoritesScreen() }

@@ -1,7 +1,5 @@
 package com.example.motivationalsentencesapp.ui.settings
 
-import android.annotation.SuppressLint
-import android.app.TimePickerDialog
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -10,12 +8,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import com.example.motivationalsentencesapp.ui.common.NotificationTimeButton
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
@@ -24,6 +27,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,6 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.motivationalsentencesapp.R
 
@@ -96,6 +101,7 @@ private fun SettingsContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
         LazyColumn(
@@ -123,11 +129,10 @@ private fun SettingsContent(
                         onNotificationQuantityChanged = onNotificationQuantityChanged
                     )
                 }
-
-                items(uiState.notificationQuantity) { index ->
-                    NotificationTimeSettingsCard(
-                        index = index,
-                        time = uiState.notificationTimes.getOrElse(index) { "09:00" },
+                item {
+                    NotificationTimesStackedCard(
+                        notificationQuantity = uiState.notificationQuantity,
+                        notificationTimes = uiState.notificationTimes,
                         onNotificationTimeChanged = onNotificationTimeChanged
                     )
                 }
@@ -228,55 +233,52 @@ private fun NotificationSettingsCard(
             )
             Switch(
                 checked = notificationsEnabled,
-                onCheckedChange = onNotificationsEnabledChanged
+                onCheckedChange = onNotificationsEnabledChanged,
+                modifier = Modifier.padding(end = 10.dp)
             )
         }
     }
 }
 
-@SuppressLint("DefaultLocale")
 @Composable
-private fun NotificationTimeSettingsCard(
-    index: Int,
-    time: String,
+private fun NotificationTimesStackedCard(
+    notificationQuantity: Int,
+    notificationTimes: List<String>,
     onNotificationTimeChanged: (Int, String) -> Unit
 ) {
-    val context = LocalContext.current
-
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp),
-        elevation = CardDefaults.cardElevation(2.dp)
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(4.dp)
     ) {
-        val timeParts = try {
-            time.split(":").map { it.toInt() }
-        } catch (_: Exception) {
-            listOf(9, 0) // Default time
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+        Column(
+            modifier = Modifier.padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Powiadomienie ${index + 1}",
-                style = MaterialTheme.typography.bodyMedium
+                text = "Czas powiadomień",
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center
             )
-            Button(onClick = {
-                TimePickerDialog(
-                    context,
-                    { _, hour, minute ->
-                        onNotificationTimeChanged(index, String.format("%02d:%02d", hour, minute))
-                    },
-                    timeParts.getOrElse(0) { 9 },
-                    timeParts.getOrElse(1) { 0 },
-                    true
-                ).show()
-            }) {
-                Text(text = time)
+            Spacer(modifier = Modifier.height(8.dp))
+            repeat(notificationQuantity) { index ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "#${index + 1}",
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.weight(1f)
+                    )
+                    NotificationTimeButton(
+                        time = notificationTimes.getOrNull(index) ?: "09:00",
+                        onClick = { onNotificationTimeChanged(index, it) },
+                        minWidth = 80.dp,
+                        minHeight = 60.dp
+                    )
+                }
             }
         }
     }
@@ -291,34 +293,35 @@ private fun NotificationQuantitySettingsCard(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+        Column(
+            modifier = Modifier.padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = stringResource(R.string.notification_quantity),
                 style = MaterialTheme.typography.bodyMedium
             )
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Button(
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                OutlinedButton(
                     onClick = { onNotificationQuantityChanged(maxOf(1, notificationQuantity - 1)) },
-                    enabled = notificationQuantity > 1
-                ) {
-                    Text("-")
-                }
+                    enabled = notificationQuantity > 1,
+                    modifier = Modifier.size(48.dp)
+                ) { Text(text = "-", textAlign = TextAlign.Center) }
                 Text(
                     text = notificationQuantity.toString(),
-                    modifier = Modifier.padding(horizontal = 16.dp)
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    style = MaterialTheme.typography.headlineSmall
                 )
-                Button(
+                OutlinedButton(
                     onClick = { onNotificationQuantityChanged(minOf(3, notificationQuantity + 1)) },
-                    enabled = notificationQuantity < 3
-                ) {
-                    Text("+")
-                }
+                    enabled = notificationQuantity < 3,
+                    modifier = Modifier.size(48.dp)
+                ) { Text(text = "+", textAlign = TextAlign.Center) }
             }
         }
     }

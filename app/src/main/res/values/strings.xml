@@ -5,7 +5,7 @@
     <string name="cancel">Anuluj</string>
     <string name="save">Zapisz</string>
     <string name="changes_saved">Zapisano zmiany</string>
-    <string name="enable_notifications">Włącz powiadomienia</string>
-    <string name="notification_quantity">Ilość powiadomień</string>
-    <string name="duplicate_notification_time_error">Nie można ustawić dwóch powiadomień na tę samą godzinę.</string>
+    <string name="enable_notifications">Włącz notyfikacje</string>
+    <string name="notification_quantity">Ilość notyfikacji</string>
+    <string name="duplicate_notification_time_error">Nie można ustawić dwóch notyfikacji na tę samą godzinę.</string>
 </resources>

@@ -11,7 +11,6 @@ import com.example.motivationalsentencesapp.data.repository.ArchiveRepositoryImp
 import com.example.motivationalsentencesapp.domain.usecase.*
 import com.example.motivationalsentencesapp.domain.usecase.GetNextNotificationTimeUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetNextNotificationTimeUseCaseImpl
-import androidx.lifecycle.SavedStateHandle
 import androidx.room.Room
 
 import com.example.motivationalsentencesapp.data.local.AppDatabase
@@ -72,14 +71,11 @@ val appModule = module {
     viewModel { OnboardingViewModel(androidApplication(), get(), get(), get()) }
     viewModel {
         HomeViewModel(
-            getRandomQuoteUseCase = get(),
             updateQuoteUseCase = get(),
             getQuoteByIdUseCase = get(),
             archiveQuoteUseCase = get(),
             getSelectedBackgroundUseCase = get(),
             settingsDataStore = get(),
-            getNextNotificationTimeUseCase = get(),
-            getNotificationPreferencesUseCase = get()
         )
     }
     viewModel { SettingsViewModel(get(), get(), get(), get()) }
