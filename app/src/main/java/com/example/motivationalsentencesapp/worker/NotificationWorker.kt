@@ -21,9 +21,12 @@ class NotificationWorker(
 
     private val getRandomQuoteUseCase: GetRandomQuoteUseCase by inject()
 
+    private val settingsDataStore: com.example.motivationalsentencesapp.data.datastore.SettingsDataStore by inject()
+
     override suspend fun doWork(): Result {
         return try {
             val quote = getRandomQuoteUseCase()
+            settingsDataStore.saveCurrentQuoteId(quote.id)
 
             val intent = Intent(context, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -45,14 +48,14 @@ class NotificationWorker(
                 .setContentText("\"${quote.text}\"")
                 .setStyle(NotificationCompat.BigTextStyle().bigText("\"${quote.text}\""))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(pendingIntent) // This makes it clickable
+                .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .build()
 
             notificationManager.notify(Random.nextInt(), notification)
 
             Result.success()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             Result.failure()
         }
     }

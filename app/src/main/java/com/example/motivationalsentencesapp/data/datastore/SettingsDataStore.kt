@@ -15,6 +15,7 @@ class SettingsDataStore(private val context: Context) {
 
     private object PreferencesKeys {
         val TEXT_COLOR = intPreferencesKey("text_color")
+        val CURRENT_QUOTE_ID = intPreferencesKey("current_quote_id")
     }
 
     val textColorFlow: Flow<Int> = context.dataStore.data
@@ -22,9 +23,18 @@ class SettingsDataStore(private val context: Context) {
             it[PreferencesKeys.TEXT_COLOR] ?: android.graphics.Color.WHITE
         }
 
+    val currentQuoteIdFlow: Flow<Int?> = context.dataStore.data
+        .map { it[PreferencesKeys.CURRENT_QUOTE_ID] }
+
     suspend fun saveTextColor(color: Int) {
         context.dataStore.edit {
             it[PreferencesKeys.TEXT_COLOR] = color
+        }
+    }
+
+    suspend fun saveCurrentQuoteId(id: Int) {
+        context.dataStore.edit {
+            it[PreferencesKeys.CURRENT_QUOTE_ID] = id
         }
     }
 }
