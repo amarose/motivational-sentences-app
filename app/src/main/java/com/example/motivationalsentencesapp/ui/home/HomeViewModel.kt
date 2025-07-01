@@ -106,15 +106,13 @@ class HomeViewModel(
         }
     }
 
-    fun onShareClicked() {
+    fun onShareClicked(quoteText: String) {
         viewModelScope.launch {
-            _uiState.value.quote?.let {
-                val quoteText = "\"${it.text}\""
-                val promoText =
-                    "Pobierz tą aplikację zupełnie za darmo i czerp z niej motywację do działania - 'TODO wkleić link do aplikacji jak juz bedzie na play store'"
-                val shareText = "$quoteText\n\n$promoText"
-                _effect.emit(HomeViewEffect.ShareQuote(shareText))
-            }
+            val quoteTextWithQuotes = "\"$quoteText\""
+            val promoText =
+                "Pobierz tą aplikację zupełnie za darmo i czerp z niej motywację do działania - 'TODO wkleić link do aplikacji jak juz bedzie na play store'"
+            val shareText = "$quoteTextWithQuotes\n\n$promoText"
+            _effect.emit(HomeViewEffect.ShareQuote(shareText))
         }
     }
 

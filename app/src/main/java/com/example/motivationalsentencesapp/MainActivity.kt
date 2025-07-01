@@ -18,8 +18,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
@@ -88,6 +92,18 @@ fun MotivationalApp(
     val isOnboardingCompleted by viewModel.isOnboardingCompleted.collectAsState()
     val navController = rememberNavController()
 
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        LaunchedEffect(Unit) {
+            val window = (view.context as android.app.Activity).window
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+            val insetsController = WindowCompat.getInsetsController(window, view)
+            insetsController.hide(WindowInsetsCompat.Type.statusBars())
+            insetsController.systemBarsBehavior =
+                WindowCompat.getInsetsController(window, view).systemBarsBehavior
+        }
+    }
+
     val bottomNavItems = listOf(
         BottomNavItem.Home,
         BottomNavItem.Favorites,
@@ -108,7 +124,7 @@ fun MotivationalApp(
             if (showBottomBar) {
                 NavigationBar {
                     bottomNavItems.forEach { screen ->
-                        val isSelected = currentDestination?.hierarchy?.any {
+                        val isSelected = currentDestination.hierarchy.any {
                             it.route == screen.route || it.route?.startsWith(screen.route + "?") == true
                         } == true
                         NavigationBarItem(
@@ -170,7 +186,7 @@ fun MotivationalApp(
                         HomeScreen(
                             quoteId = backStackEntry.arguments?.getInt(Routes.Home.ARG_QUOTE_ID) ?: -1,
                             quoteText = backStackEntry.arguments?.getString(Routes.Home.ARG_QUOTE_TEXT),
-                            isFavorite = backStackEntry.arguments?.getBoolean(Routes.Home.ARG_IS_FAVORITE) ?: false
+                            isFavorite = backStackEntry.arguments?.getBoolean(Routes.Home.ARG_IS_FAVORITE) == true
                         )
                     }
                     composable(Routes.Favorites.ROUTE) { FavoritesScreen() }

@@ -17,8 +17,8 @@ class GetAvailableBackgroundsUseCaseImpl : GetAvailableBackgroundsUseCase {
             Background(id = 9, resourceId = R.mipmap.img9, name = "Abstract 9"),
             Background(id = 10, resourceId = R.mipmap.img10, name = "Abstract 10"),
             Background(id = 11, resourceId = R.mipmap.img11, name = "Abstract 11"),
-            Background(id = 12, resourceId = R.mipmap.img12, name = "Abstract 12"),
-//            Background(id = 13, resourceId = R.mipmap.img13, name = "Abstract 13"),
+            Background(id = 12, resourceId = R.mipmap.img12, name = "Abstract 12"), // 31
+            Background(id = 13, resourceId = R.mipmap.img13, name = "Abstract 13"), // 32
             Background(id = 14, resourceId = R.mipmap.img14, name = "Abstract 14"),
             Background(id = 15, resourceId = R.mipmap.img15, name = "Abstract 15"),
             Background(id = 16, resourceId = R.mipmap.img16, name = "Abstract 16"),
@@ -35,7 +35,7 @@ class GetAvailableBackgroundsUseCaseImpl : GetAvailableBackgroundsUseCase {
             Background(id = 27, resourceId = R.mipmap.img27, name = "Abstract 27"),
             Background(id = 28, resourceId = R.mipmap.img28, name = "Abstract 28"),
             Background(id = 29, resourceId = R.mipmap.img29, name = "Abstract 29"),
-//            Background(id = 30, resourceId = R.mipmap.img30, name = "Abstract 30"),
+            Background(id = 30, resourceId = R.mipmap.img30, name = "Abstract 30"), //38
         )
     }
 }

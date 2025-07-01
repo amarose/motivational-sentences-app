@@ -7,10 +7,10 @@
       </SelectionState>
       <SelectionState runConfigName="MotivationalSentencesApp.app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-06-23T21:39:39.611150500Z">
+        <DropdownSelection timestamp="2025-06-30T21:45:35.312186900Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\user\.android\avd\Pixel_8_Pro_API_34.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\user\.android\avd\Pixel_6_Pro_API_24.avd" />
             </handle>
           </Target>
         </DropdownSelection>

@@ -7,10 +7,17 @@ import com.example.motivationalsentencesapp.domain.usecase.CleanUpArchiveUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetArchivedQuotesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+
+sealed class ArchiveViewEffect {
+    data class ShareQuote(val text: String) : ArchiveViewEffect()
+}
 
 data class ArchiveUiState(
     val quotes: List<ArchivedQuote> = emptyList(),
@@ -25,6 +32,9 @@ class ArchiveViewModel(
     private val _uiState = MutableStateFlow(ArchiveUiState())
     val uiState: StateFlow<ArchiveUiState> = _uiState.asStateFlow()
 
+    private val _effect = MutableSharedFlow<ArchiveViewEffect>()
+    val effect: SharedFlow<ArchiveViewEffect> = _effect.asSharedFlow()
+
     init {
         loadArchivedQuotes()
         cleanUpArchive()
@@ -36,6 +46,12 @@ class ArchiveViewModel(
                 _uiState.value = ArchiveUiState(quotes = archivedQuotes, isLoading = false)
             }
             .launchIn(viewModelScope)
+    }
+
+    fun onShareClicked(quoteText: String) {
+        viewModelScope.launch {
+            _effect.emit(ArchiveViewEffect.ShareQuote(quoteText))
+        }
     }
 
     private fun cleanUpArchive() {

@@ -40,6 +40,7 @@ import kotlinx.datetime.toLocalDateTime
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.motivationalsentencesapp.ui.common.QuoteCard
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -87,61 +88,17 @@ fun HomeScreen(
         } else if (uiState.quote != null) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
+                    .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 uiState.quote?.let { quote ->
-                    val textColor = Color(uiState.textColor)
-                    Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(36.dp))
-                            .background(Color.Black.copy(alpha = 0.5f))
-                            .padding(horizontal = 16.dp, vertical = 4.dp),
-                    ) {
-                        Text(
-                            text = quote.text,
-                            style = MaterialTheme.typography.bodyLarge,
-                            textAlign = TextAlign.Center,
-                            color = textColor,
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(32.dp))
-
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = if (quote.isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                            contentDescription = "Ulubione",
-                            tint = textColor,
-                            modifier = Modifier
-                                .size(36.dp)
-                                .clickable { viewModel.onToggleFavorite(quote) }
-                        )
-//                        Icon(
-//                            imageVector = Icons.Default.Refresh,
-//                            contentDescription = "Odśwież",
-//                            tint = textColor,
-//                            modifier = Modifier
-//                                .size(36.dp)
-//                                .clickable { viewModel.loadRandomQuote() }
-//                        )
-                        Icon(
-                            imageVector = Icons.Default.Share,
-                            contentDescription = "Udostępnij",
-                            tint = textColor,
-                            modifier = Modifier
-                                .size(36.dp)
-                                .clickable { viewModel.onShareClicked() }
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(32.dp))
+                    QuoteCard(
+                        quote = quote,
+                        textColor = Color(uiState.textColor),
+                        onToggleFavorite = viewModel::onToggleFavorite,
+                        onShare = viewModel::onShareClicked
+                    )
                 }
             }
         } else {
