@@ -19,6 +19,7 @@ ksp = "2.1.21-2.0.1"
 datastore = "1.1.7"
 workRuntimeKtx = "2.10.2"
 palette = "1.0.0"
+splashscreen = "1.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -49,6 +50,7 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 androidx-palette-ktx = { group = "androidx.palette", name = "palette-ktx", version.ref = "palette" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

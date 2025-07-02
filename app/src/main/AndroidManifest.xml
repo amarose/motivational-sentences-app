@@ -14,13 +14,13 @@
         android:label="Motywator"
         android:roundIcon="@mipmap/logo_192_rounded"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MotivationalSentencesApp"
+                android:theme="@style/Theme.App.Starting"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.MotivationalSentencesApp">
+                    android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -42,12 +42,22 @@ import com.example.motivationalsentencesapp.ui.navigation.Routes
 import com.example.motivationalsentencesapp.ui.onboarding.OnboardingScreen
 import com.example.motivationalsentencesapp.ui.settings.SettingsScreen
 import com.example.motivationalsentencesapp.ui.theme.MotivationalSentencesAppTheme
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.example.motivationalsentencesapp.ui.home.HomeViewModel
 import org.koin.androidx.compose.koinViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private val homeViewModel: HomeViewModel by viewModel()
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+
+        splashScreen.setKeepOnScreenCondition {
+            homeViewModel.uiState.value.isLoading
+        }
 
         val quoteId = intent.getIntExtra(EXTRA_QUOTE_ID, -1)
         val quoteText = intent.getStringExtra(EXTRA_QUOTE_TEXT)
@@ -59,7 +69,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MotivationalApp(
+                                        MotivationalApp(
+                        homeViewModel = homeViewModel,
                         quoteId = if (quoteId != -1) quoteId else null,
                         quoteText = quoteText,
                         isFavorite = isFavorite
@@ -85,6 +96,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MotivationalApp(
     viewModel: MainViewModel = koinViewModel(),
+    homeViewModel: HomeViewModel,
     quoteId: Int?,
     quoteText: String?,
     isFavorite: Boolean
@@ -183,10 +195,8 @@ fun MotivationalApp(
                             navArgument(Routes.Home.ARG_IS_FAVORITE) { type = NavType.BoolType; defaultValue = false }
                         )
                     ) { backStackEntry ->
-                        HomeScreen(
-//                            quoteId = backStackEntry.arguments?.getInt(Routes.Home.ARG_QUOTE_ID) ?: -1,
-//                            quoteText = backStackEntry.arguments?.getString(Routes.Home.ARG_QUOTE_TEXT),
-//                            isFavorite = backStackEntry.arguments?.getBoolean(Routes.Home.ARG_IS_FAVORITE) == true
+                                                HomeScreen(
+                            viewModel = homeViewModel
                         )
                     }
                     composable(Routes.Favorites.ROUTE) { FavoritesScreen() }

@@ -75,6 +75,9 @@ dependencies {
     // DataStore
     implementation(libs.androidx.datastore.preferences)
 
+    // Splash Screen
+    implementation(libs.androidx.core.splashscreen)
+
     // WorkManager
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.koin.androidx.workmanager)
