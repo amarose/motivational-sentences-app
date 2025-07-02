@@ -7,6 +7,15 @@ class GetRandomQuoteUseCaseImpl(
     private val quoteRepository: QuoteRepository
 ) : GetRandomQuoteUseCase {
     override suspend fun invoke(): Quote {
-        return quoteRepository.getRandomQuote()
+        var unseenQuote = quoteRepository.getRandomUnseenQuote()
+
+        if (unseenQuote == null) {
+            quoteRepository.resetAllQuotesToUnseen()
+            unseenQuote = quoteRepository.getRandomUnseenQuote()
+        }
+
+        val quote = unseenQuote ?: quoteRepository.getRandomQuote()
+        quoteRepository.markQuoteAsSeen(quote.id)
+        return quote
     }
 }

@@ -19,4 +19,16 @@ interface QuoteDao {
 
     @Update
     suspend fun updateQuote(quote: Quote)
+
+    @Query("SELECT COUNT(*) FROM quotes")
+    suspend fun count(): Int
+
+    @Query("SELECT * FROM quotes WHERE wasDisplayed = 0 ORDER BY RANDOM() LIMIT 1")
+    suspend fun getRandomUnseenQuote(): Quote?
+
+    @Query("UPDATE quotes SET wasDisplayed = 1 WHERE id = :quoteId")
+    suspend fun markQuoteAsSeen(quoteId: Int)
+
+    @Query("UPDATE quotes SET wasDisplayed = 0")
+    suspend fun resetAllQuotesToUnseen()
 }

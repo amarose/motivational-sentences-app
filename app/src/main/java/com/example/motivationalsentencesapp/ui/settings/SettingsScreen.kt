@@ -84,7 +84,7 @@ fun SettingsScreen(
             onNotificationTimeChanged = viewModel::onNotificationTimeChanged,
             onNotificationQuantityChanged = viewModel::onNotificationQuantityChanged,
             onColorSelected = viewModel::onColorSelected,
-            onSave = viewModel::savePreferences
+            onSave = viewModel::savePreferences,
         )
     }
 }
@@ -96,7 +96,7 @@ private fun SettingsContent(
     onNotificationTimeChanged: (Int, String) -> Unit,
     onNotificationQuantityChanged: (Int) -> Unit,
     onColorSelected: (Int) -> Unit,
-    onSave: () -> Unit
+    onSave: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -142,9 +142,9 @@ private fun SettingsContent(
             onClick = onSave,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp)
+                .padding(top = 16.dp)
         ) {
-            Text(stringResource(R.string.save))
+            Text(text = stringResource(R.string.save))
         }
     }
 }

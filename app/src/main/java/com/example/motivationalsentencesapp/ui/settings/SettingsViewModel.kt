@@ -107,5 +107,4 @@ class SettingsViewModel(
     fun onDuplicateTimeErrorShown() {
         _showDuplicateTimeError.value = false
     }
-
 }

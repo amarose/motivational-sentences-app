@@ -12,15 +12,14 @@ import com.example.motivationalsentencesapp.domain.usecase.*
 import com.example.motivationalsentencesapp.domain.usecase.GetNextNotificationTimeUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetNextNotificationTimeUseCaseImpl
 import androidx.room.Room
-
 import com.example.motivationalsentencesapp.data.local.AppDatabase
+import com.example.motivationalsentencesapp.data.local.MIGRATION_3_4
 import com.example.motivationalsentencesapp.data.datastore.SettingsDataStore
 import com.example.motivationalsentencesapp.ui.archive.ArchiveViewModel
 import com.example.motivationalsentencesapp.ui.background.BackgroundViewModel
 import com.example.motivationalsentencesapp.ui.favorites.FavoritesViewModel
 import com.example.motivationalsentencesapp.ui.home.HomeViewModel
 import com.example.motivationalsentencesapp.ui.main.MainViewModel
-
 import com.example.motivationalsentencesapp.ui.notification.NotificationScheduler
 import com.example.motivationalsentencesapp.ui.notification.NotificationSchedulerWorkManagerImpl
 import com.example.motivationalsentencesapp.ui.onboarding.OnboardingViewModel
@@ -44,6 +43,7 @@ val appModule = module {
     single {
         Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "app-database")
             .fallbackToDestructiveMigration(false)
+            .addMigrations(MIGRATION_3_4)
             .build()
     }
     single { get<AppDatabase>().quoteDao() }
@@ -58,6 +58,8 @@ val appModule = module {
     factory<UpdateQuoteUseCase> { UpdateQuoteUseCaseImpl(get()) }
     factory<GetFavoriteQuotesUseCase> { GetFavoriteQuotesUseCaseImpl(get()) }
     factory<GetQuoteByIdUseCase> { GetQuoteByIdUseCaseImpl(get()) }
+    factory<MarkQuoteAsSeenUseCase> { MarkQuoteAsSeenUseCaseImpl(get()) }
+    factory<ResetAllQuotesToUnseenUseCase> { ResetAllQuotesToUnseenUseCaseImpl(get()) }
     factory<ArchiveQuoteUseCase> { ArchiveQuoteUseCaseImpl(get()) }
     factory<GetArchivedQuotesUseCase> { GetArchivedQuotesUseCaseImpl(get()) }
     factory<CleanUpArchiveUseCase> { CleanUpArchiveUseCaseImpl(get()) }
@@ -71,16 +73,23 @@ val appModule = module {
     viewModel { OnboardingViewModel(androidApplication(), get(), get(), get()) }
     viewModel {
         HomeViewModel(
+            getRandomQuoteUseCase = get(),
             updateQuoteUseCase = get(),
             getQuoteByIdUseCase = get(),
             archiveQuoteUseCase = get(),
+            markQuoteAsSeenUseCase = get(),
             getSelectedBackgroundUseCase = get(),
             settingsDataStore = get(),
         )
     }
     viewModel { SettingsViewModel(get(), get(), get(), get()) }
     viewModel { FavoritesViewModel(get(), get()) }
-    viewModel { ArchiveViewModel(get(), get()) }
+    viewModel {
+        ArchiveViewModel(
+            getArchivedQuotesUseCase = get(),
+            cleanUpArchiveUseCase = get()
+        )
+    }
     viewModel { BackgroundViewModel(get(), get(), get()) }
     worker { NotificationWorker(get(), get()) }
 }

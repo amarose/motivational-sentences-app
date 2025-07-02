@@ -7,5 +7,6 @@ import androidx.room.PrimaryKey
 data class Quote(
     @PrimaryKey val id: Int,
     val text: String,
-    val isFavorite: Boolean = false
+    val isFavorite: Boolean = false,
+    val wasDisplayed: Boolean = false
 )

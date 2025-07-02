@@ -1,6 +1,6 @@
 package com.example.motivationalsentencesapp.data.repository
 
-import com.example.motivationalsentencesapp.data.local.ArchivedQuoteDao
+import com.example.motivationalsentencesapp.data.local.dao.ArchivedQuoteDao
 import com.example.motivationalsentencesapp.data.model.ArchivedQuote
 import kotlinx.coroutines.flow.Flow
 import java.util.concurrent.TimeUnit

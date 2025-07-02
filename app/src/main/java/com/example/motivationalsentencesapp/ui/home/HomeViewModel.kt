@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.motivationalsentencesapp.data.datastore.SettingsDataStore
 import com.example.motivationalsentencesapp.data.model.Quote
 import com.example.motivationalsentencesapp.domain.usecase.ArchiveQuoteUseCase
+import com.example.motivationalsentencesapp.domain.usecase.MarkQuoteAsSeenUseCase
+import com.example.motivationalsentencesapp.domain.usecase.GetRandomQuoteUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetQuoteByIdUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetSelectedBackgroundUseCase
 import com.example.motivationalsentencesapp.domain.usecase.UpdateQuoteUseCase
@@ -16,9 +18,10 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
 sealed class HomeViewEffect {
@@ -35,9 +38,11 @@ data class HomeUiState(
 
 
 class HomeViewModel(
+    private val getRandomQuoteUseCase: GetRandomQuoteUseCase,
     private val updateQuoteUseCase: UpdateQuoteUseCase,
     private val getQuoteByIdUseCase: GetQuoteByIdUseCase,
     private val archiveQuoteUseCase: ArchiveQuoteUseCase,
+    private val markQuoteAsSeenUseCase: MarkQuoteAsSeenUseCase,
     private val getSelectedBackgroundUseCase: GetSelectedBackgroundUseCase,
     private val settingsDataStore: SettingsDataStore,
 ) : ViewModel() {
@@ -92,12 +97,23 @@ class HomeViewModel(
         @OptIn(ExperimentalCoroutinesApi::class)
         private fun observeCurrentQuote() {
             settingsDataStore.currentQuoteIdFlow
-                .filterNotNull()
                 .distinctUntilChanged()
-                .flatMapLatest { quoteId -> getQuoteByIdUseCase(quoteId) }
+                .flatMapLatest { quoteId ->
+                    if (quoteId != null) {
+                        getQuoteByIdUseCase(quoteId)
+                    } else {
+                        flow { emit(getRandomQuoteUseCase()) }
+                    }
+                }
                 .onEach { quote ->
                     _uiState.value = _uiState.value.copy(quote = quote, isLoading = false)
-                    quote?.let { archiveQuoteUseCase(it) }
+                    quote?.let {
+                        if (settingsDataStore.currentQuoteIdFlow.first() == null) {
+                            settingsDataStore.saveCurrentQuoteId(it.id)
+                        }
+                        markQuoteAsSeenUseCase(it.id)
+                        archiveQuoteUseCase(it)
+                    }
                 }
                 .launchIn(viewModelScope)
         }

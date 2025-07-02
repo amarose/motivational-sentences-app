@@ -1,17 +1,15 @@
 package com.example.motivationalsentencesapp.data.repository
 
+import com.example.motivationalsentencesapp.data.local.dao.QuoteDao
 import com.example.motivationalsentencesapp.data.model.Quote
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.update
-
-import com.example.motivationalsentencesapp.data.local.dao.QuoteDao
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class QuoteRepositoryImpl(private val quoteDao: QuoteDao) : QuoteRepository {
@@ -378,5 +376,17 @@ class QuoteRepositoryImpl(private val quoteDao: QuoteDao) : QuoteRepository {
         return _quotes.map { quotes ->
             quotes.filter { it.isFavorite }
         }
+    }
+
+    override suspend fun getRandomUnseenQuote(): Quote? {
+        return quoteDao.getRandomUnseenQuote()
+    }
+
+    override suspend fun markQuoteAsSeen(quoteId: Int) {
+        quoteDao.markQuoteAsSeen(quoteId)
+    }
+
+    override suspend fun resetAllQuotesToUnseen() {
+        quoteDao.resetAllQuotesToUnseen()
     }
 }
