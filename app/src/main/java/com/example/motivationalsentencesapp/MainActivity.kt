@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.example.motivationalsentencesapp.ui.main.MainViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -36,7 +38,6 @@ import com.example.motivationalsentencesapp.ui.archive.ArchiveScreen
 import com.example.motivationalsentencesapp.ui.background.BackgroundScreen
 import com.example.motivationalsentencesapp.ui.favorites.FavoritesScreen
 import com.example.motivationalsentencesapp.ui.home.HomeScreen
-import com.example.motivationalsentencesapp.ui.main.MainViewModel
 import com.example.motivationalsentencesapp.ui.navigation.BottomNavItem
 import com.example.motivationalsentencesapp.ui.navigation.Routes
 import com.example.motivationalsentencesapp.ui.onboarding.OnboardingScreen
@@ -44,19 +45,19 @@ import com.example.motivationalsentencesapp.ui.settings.SettingsScreen
 import com.example.motivationalsentencesapp.ui.theme.MotivationalSentencesAppTheme
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.motivationalsentencesapp.ui.home.HomeViewModel
-import org.koin.androidx.compose.koinViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
 
     private val homeViewModel: HomeViewModel by viewModel()
+    private val mainViewModel: MainViewModel by viewModel()
 
-        override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
 
+        // Splash screen will remain until onboarding state is loaded
         splashScreen.setKeepOnScreenCondition {
-            homeViewModel.uiState.value.isLoading
+            mainViewModel.isOnboardingCompleted.value == null
         }
 
         val quoteId = intent.getIntExtra(EXTRA_QUOTE_ID, -1)
@@ -69,7 +70,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                                        MotivationalApp(
+                    MotivationalApp(
+                        mainViewModel = mainViewModel,
                         homeViewModel = homeViewModel,
                         quoteId = if (quoteId != -1) quoteId else null,
                         quoteText = quoteText,
@@ -95,13 +97,13 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MotivationalApp(
-    viewModel: MainViewModel = koinViewModel(),
+    mainViewModel: MainViewModel,
     homeViewModel: HomeViewModel,
     quoteId: Int?,
     quoteText: String?,
     isFavorite: Boolean
 ) {
-    val isOnboardingCompleted by viewModel.isOnboardingCompleted.collectAsState()
+    val isOnboardingCompleted by mainViewModel.isOnboardingCompleted.collectAsState()
     val navController = rememberNavController()
 
     val view = LocalView.current

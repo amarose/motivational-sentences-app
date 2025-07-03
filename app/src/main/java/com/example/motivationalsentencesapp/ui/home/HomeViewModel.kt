@@ -92,8 +92,6 @@ class HomeViewModel(
             }
         }
 
-        // Removed observeNotificationPreferences and loadNextNotificationTime
-
         @OptIn(ExperimentalCoroutinesApi::class)
         private fun observeCurrentQuote() {
             settingsDataStore.currentQuoteIdFlow

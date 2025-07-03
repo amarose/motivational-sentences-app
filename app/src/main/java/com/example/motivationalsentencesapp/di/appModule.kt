@@ -41,10 +41,11 @@ val appModule = module {
 
     // Database
     single {
-        Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "app-database")
-            .fallbackToDestructiveMigration(false)
+        val db = Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "app-database")
+            .fallbackToDestructiveMigration(true)
             .addMigrations(MIGRATION_3_4)
             .build()
+        db
     }
     single { get<AppDatabase>().quoteDao() }
     single { get<AppDatabase>().archivedQuoteDao() }
