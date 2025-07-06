@@ -9,6 +9,7 @@ import com.example.motivationalsentencesapp.data.repository.QuoteRepositoryImpl
 import com.example.motivationalsentencesapp.data.repository.ArchiveRepository
 import com.example.motivationalsentencesapp.data.repository.ArchiveRepositoryImpl
 import com.example.motivationalsentencesapp.domain.usecase.*
+import com.example.motivationalsentencesapp.data.usecase.ShareQuoteUseCaseImpl
 import com.example.motivationalsentencesapp.domain.usecase.GetNextNotificationTimeUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetNextNotificationTimeUseCaseImpl
 import androidx.room.Room
@@ -68,6 +69,7 @@ val appModule = module {
     factory<UpdateSelectedBackgroundUseCase> { UpdateSelectedBackgroundUseCaseImpl(get()) }
     factory<GetAvailableBackgroundsUseCase> { GetAvailableBackgroundsUseCaseImpl() }
     factory<GetNextNotificationTimeUseCase> { GetNextNotificationTimeUseCaseImpl(get()) }
+    factory<ShareQuoteUseCase> { ShareQuoteUseCaseImpl() }
 
     // Presentation Layer
     viewModel { MainViewModel(get()) }
@@ -80,15 +82,21 @@ val appModule = module {
             archiveQuoteUseCase = get(),
             markQuoteAsSeenUseCase = get(),
             getSelectedBackgroundUseCase = get(),
+            shareQuoteUseCase = get(),
             settingsDataStore = get(),
         )
     }
     viewModel { SettingsViewModel(get(), get(), get(), get()) }
-    viewModel { FavoritesViewModel(get(), get()) }
+    viewModel { FavoritesViewModel(
+        getFavoriteQuotesUseCase = get(),
+        updateQuoteUseCase = get(),
+        shareQuoteUseCase = get()
+    ) }
     viewModel {
         ArchiveViewModel(
             getArchivedQuotesUseCase = get(),
-            cleanUpArchiveUseCase = get()
+            cleanUpArchiveUseCase = get(),
+            shareQuoteUseCase = get()
         )
     }
     viewModel { BackgroundViewModel(get(), get(), get()) }

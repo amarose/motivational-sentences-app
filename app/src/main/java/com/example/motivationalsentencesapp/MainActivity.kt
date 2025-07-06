@@ -1,9 +1,13 @@
 package com.example.motivationalsentencesapp
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
+import android.view.animation.DecelerateInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.motivationalsentencesapp.ui.main.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import androidx.compose.foundation.layout.Box
@@ -43,7 +47,6 @@ import com.example.motivationalsentencesapp.ui.navigation.Routes
 import com.example.motivationalsentencesapp.ui.onboarding.OnboardingScreen
 import com.example.motivationalsentencesapp.ui.settings.SettingsScreen
 import com.example.motivationalsentencesapp.ui.theme.MotivationalSentencesAppTheme
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.motivationalsentencesapp.ui.home.HomeViewModel
 
 class MainActivity : ComponentActivity() {
@@ -55,9 +58,21 @@ class MainActivity : ComponentActivity() {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
 
-        // Splash screen will remain until onboarding state is loaded
         splashScreen.setKeepOnScreenCondition {
             mainViewModel.isOnboardingCompleted.value == null
+        }
+        
+        splashScreen.setOnExitAnimationListener { splashScreenView ->
+            val fadeOut = ObjectAnimator.ofFloat(
+                splashScreenView.view,
+                "alpha",
+                1f,
+                0f
+            )
+            fadeOut.interpolator = DecelerateInterpolator()
+            fadeOut.duration = 500L
+            fadeOut.doOnEnd { splashScreenView.remove() }
+            fadeOut.start()
         }
 
         val quoteId = intent.getIntExtra(EXTRA_QUOTE_ID, -1)

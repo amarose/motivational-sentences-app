@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Splash screen logo size for 10"+ tablets (sw720dp) -->
+    <dimen name="splash_icon_size">200dp</dimen>
+</resources>

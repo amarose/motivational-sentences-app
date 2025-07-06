@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.motivationalsentencesapp.data.model.ArchivedQuote
 import com.example.motivationalsentencesapp.domain.usecase.CleanUpArchiveUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetArchivedQuotesUseCase
+import com.example.motivationalsentencesapp.domain.usecase.ShareQuoteUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -26,7 +27,8 @@ data class ArchiveUiState(
 
 class ArchiveViewModel(
     private val getArchivedQuotesUseCase: GetArchivedQuotesUseCase,
-    private val cleanUpArchiveUseCase: CleanUpArchiveUseCase
+    private val cleanUpArchiveUseCase: CleanUpArchiveUseCase,
+    private val shareQuoteUseCase: ShareQuoteUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ArchiveUiState())
@@ -50,7 +52,8 @@ class ArchiveViewModel(
 
     fun onShareClicked(quoteText: String) {
         viewModelScope.launch {
-            _effect.emit(ArchiveViewEffect.ShareQuote(quoteText))
+            val shareText = shareQuoteUseCase(quoteText)
+            _effect.emit(ArchiveViewEffect.ShareQuote(shareText))
         }
     }
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.motivationalsentencesapp.data.model.Quote
 import com.example.motivationalsentencesapp.domain.usecase.GetFavoriteQuotesUseCase
+import com.example.motivationalsentencesapp.domain.usecase.ShareQuoteUseCase
 import com.example.motivationalsentencesapp.domain.usecase.UpdateQuoteUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,7 +27,8 @@ data class FavoritesUiState(
 
 class FavoritesViewModel(
     private val getFavoriteQuotesUseCase: GetFavoriteQuotesUseCase,
-    private val updateQuoteUseCase: UpdateQuoteUseCase
+    private val updateQuoteUseCase: UpdateQuoteUseCase,
+    private val shareQuoteUseCase: ShareQuoteUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(FavoritesUiState())
@@ -49,7 +51,8 @@ class FavoritesViewModel(
 
     fun onShareClicked(quoteText: String) {
         viewModelScope.launch {
-            _effect.emit(FavoritesViewEffect.ShareQuote(quoteText))
+            val shareText = shareQuoteUseCase(quoteText)
+            _effect.emit(FavoritesViewEffect.ShareQuote(shareText))
         }
     }
 

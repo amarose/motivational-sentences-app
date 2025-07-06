@@ -1,6 +1,7 @@
 package com.example.motivationalsentencesapp.ui.archive
 
 import android.content.Intent
+import com.example.motivationalsentencesapp.ui.common.QuoteShareHelper
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,13 +48,7 @@ fun ArchiveScreen(
         viewModel.effect.collect { effect ->
             when (effect) {
                 is ArchiveViewEffect.ShareQuote -> {
-                    val sendIntent: Intent = Intent().apply {
-                        action = Intent.ACTION_SEND
-                        putExtra(Intent.EXTRA_TEXT, effect.text)
-                        type = "text/plain"
-                    }
-                    val shareIntent = Intent.createChooser(sendIntent, null)
-                    context.startActivity(shareIntent)
+                    QuoteShareHelper.shareQuote(context, effect.text)
                 }
             }
         }

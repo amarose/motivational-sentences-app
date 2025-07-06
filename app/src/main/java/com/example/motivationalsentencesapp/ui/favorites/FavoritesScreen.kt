@@ -1,6 +1,7 @@
 package com.example.motivationalsentencesapp.ui.favorites
 
 import android.content.Intent
+import com.example.motivationalsentencesapp.ui.common.QuoteShareHelper
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -34,13 +35,7 @@ fun FavoritesScreen(
         viewModel.effect.collect { effect ->
             when (effect) {
                 is FavoritesViewEffect.ShareQuote -> {
-                    val sendIntent: Intent = Intent().apply {
-                        action = Intent.ACTION_SEND
-                        putExtra(Intent.EXTRA_TEXT, effect.text)
-                        type = "text/plain"
-                    }
-                    val shareIntent = Intent.createChooser(sendIntent, null)
-                    context.startActivity(shareIntent)
+                    QuoteShareHelper.shareQuote(context, effect.text)
                 }
             }
         }

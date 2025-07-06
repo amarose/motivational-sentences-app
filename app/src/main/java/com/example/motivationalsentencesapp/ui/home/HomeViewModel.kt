@@ -9,6 +9,7 @@ import com.example.motivationalsentencesapp.domain.usecase.MarkQuoteAsSeenUseCas
 import com.example.motivationalsentencesapp.domain.usecase.GetRandomQuoteUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetQuoteByIdUseCase
 import com.example.motivationalsentencesapp.domain.usecase.GetSelectedBackgroundUseCase
+import com.example.motivationalsentencesapp.domain.usecase.ShareQuoteUseCase
 import com.example.motivationalsentencesapp.domain.usecase.UpdateQuoteUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -44,6 +45,7 @@ class HomeViewModel(
     private val archiveQuoteUseCase: ArchiveQuoteUseCase,
     private val markQuoteAsSeenUseCase: MarkQuoteAsSeenUseCase,
     private val getSelectedBackgroundUseCase: GetSelectedBackgroundUseCase,
+    private val shareQuoteUseCase: ShareQuoteUseCase,
     private val settingsDataStore: SettingsDataStore,
 ) : ViewModel() {
 
@@ -84,10 +86,7 @@ class HomeViewModel(
 
         fun onShareClicked(quoteText: String) {
             viewModelScope.launch {
-                val quoteTextWithQuotes = "\"$quoteText\""
-                val promoText =
-                    "Pobierz tą aplikację zupełnie za darmo i czerp z niej motywację do działania - 'TODO wkleić link do aplikacji jak juz bedzie na play store'"
-                val shareText = "$quoteTextWithQuotes\n\n$promoText"
+                val shareText = shareQuoteUseCase(quoteText)
                 _effect.emit(HomeViewEffect.ShareQuote(shareText))
             }
         }
