@@ -5,10 +5,10 @@
             <solid android:color="@color/black" />
         </shape>
     </item>
-    <!-- Responsive logo that adapts to screen size -->
+    <!-- High-resolution logo with controlled size -->
     <item
-        android:drawable="@mipmap/logo_192"
-        android:gravity="center"
         android:width="@dimen/splash_icon_size"
-        android:height="@dimen/splash_icon_size" />
+        android:height="@dimen/splash_icon_size"
+        android:drawable="@mipmap/motywator_logo_high_res"
+        android:gravity="center" />
 </layer-list>
