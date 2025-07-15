@@ -19,7 +19,6 @@ Aplikacja "Motywacyjne Sentencje" została stworzona, aby dostarczać codzienną
 Ekran główny jest sercem aplikacji. To tutaj wyświetlane są cytaty oraz informacja o zaplanowanych notyfikacjach.
 
 - **Wyświetlanie cytatu:** Gdy otworzysz aplikację poprzez notyfikację, na ekranie pojawi się nowy cytat.
-- **Informacja o następnej notyfikacji:** Jeśli otworzysz aplikację manualnie (nie przez notyfikację), na ekranie zobaczysz informację, na kiedy zaplanowane jest następne powiadomienie z cytatem.
 - **Dodawanie do ulubionych:** Kliknij ikonę serca (❤️), aby zapisać aktualny cytat w zakładce "Ulubione".
 - **Udostępnianie cytatu:** Kliknij ikonę udostępniania, aby podzielić się cytatem z innymi.
 
