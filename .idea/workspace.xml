@@ -10,12 +10,114 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="824d23d1-700b-4b01-8456-2bccedba4214" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.9/checksums/checksums.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.9/checksums/md5-checksums.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.9/checksums/sha1-checksums.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.9/dependencies-accessors/25d8bd805c6bbf8f9ce6f8257070094ef0f51725/metadata.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.9/dependencies-accessors/25d8bd805c6bbf8f9ce6f8257070094ef0f51725/sources/org/gradle/accessors/dm/LibrariesForLibs.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.9/dependencies-accessors/25d8bd805c6bbf8f9ce6f8257070094ef0f51725/sources/org/gradle/accessors/dm/LibrariesForLibsInPluginsBlock.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.9/dependencies-accessors/b9c3d0e14aa981dc4cd1a241fb7f4c2ac2a951da/metadata.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.9/dependencies-accessors/b9c3d0e14aa981dc4cd1a241fb7f4c2ac2a951da/sources/org/gradle/accessors/dm/LibrariesForLibs.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.9/dependencies-accessors/b9c3d0e14aa981dc4cd1a241fb7f4c2ac2a951da/sources/org/gradle/accessors/dm/LibrariesForLibsInPluginsBlock.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.9/dependencies-accessors/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.9/fileChanges/last-build.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.9/fileHashes/fileHashes.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.9/fileHashes/fileHashes.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.9/fileHashes/resourceHashesCache.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.9/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/splash_content.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/splash_content.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw600dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw600dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw720dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw720dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/androidTest/java/com/example/motivationalsentencesapp/ExampleInstrumentedTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/androidTest/java/pl/amarosee/motywator/ExampleInstrumentedTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/MainApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/MainApplication.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/data/datastore/SettingsDataStore.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/data/datastore/SettingsDataStore.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/data/local/AppDatabase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/data/local/AppDatabase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/data/local/dao/ArchivedQuoteDao.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/data/local/dao/ArchivedQuoteDao.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/data/local/dao/QuoteDao.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/data/local/dao/QuoteDao.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/data/model/ArchivedQuote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/data/model/ArchivedQuote.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/data/model/Background.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/data/model/Background.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/data/model/NotificationPreferences.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/data/model/NotificationPreferences.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/data/model/Quote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/data/model/Quote.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/data/repository/ArchiveRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/data/repository/ArchiveRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/data/repository/ArchiveRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/data/repository/ArchiveRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/data/repository/QuoteRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/data/repository/QuoteRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/data/repository/QuoteRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/data/repository/QuoteRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/data/repository/UserPreferencesRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/data/repository/UserPreferencesRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/data/repository/UserPreferencesRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/data/repository/UserPreferencesRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/data/usecase/ShareQuoteUseCaseImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/data/usecase/ShareQuoteUseCaseImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/di/appModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/di/appModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/ArchiveQuoteUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/ArchiveQuoteUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/ArchiveQuoteUseCaseImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/ArchiveQuoteUseCaseImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/CleanUpArchiveUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/CleanUpArchiveUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/CleanUpArchiveUseCaseImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/CleanUpArchiveUseCaseImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/GetArchivedQuotesUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/GetArchivedQuotesUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/GetArchivedQuotesUseCaseImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/GetArchivedQuotesUseCaseImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/GetAvailableBackgroundsUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/GetAvailableBackgroundsUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/GetAvailableBackgroundsUseCaseImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/GetAvailableBackgroundsUseCaseImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/GetFavoriteQuotesUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/GetFavoriteQuotesUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/GetFavoriteQuotesUseCaseImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/GetFavoriteQuotesUseCaseImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/GetNextNotificationTimeUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/GetNextNotificationTimeUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/GetNextNotificationTimeUseCaseImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/GetNextNotificationTimeUseCaseImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/GetNotificationPreferencesUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/GetNotificationPreferencesUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/GetNotificationPreferencesUseCaseImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/GetNotificationPreferencesUseCaseImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/GetOnboardingStatusUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/GetOnboardingStatusUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/GetOnboardingStatusUseCaseImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/GetOnboardingStatusUseCaseImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/GetQuoteByIdUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/GetQuoteByIdUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/GetQuoteByIdUseCaseImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/GetQuoteByIdUseCaseImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/GetRandomQuoteUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/GetRandomQuoteUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/GetRandomQuoteUseCaseImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/GetRandomQuoteUseCaseImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/GetSelectedBackgroundUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/GetSelectedBackgroundUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/GetSelectedBackgroundUseCaseImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/GetSelectedBackgroundUseCaseImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/MarkQuoteAsSeenUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/MarkQuoteAsSeenUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/MarkQuoteAsSeenUseCaseImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/MarkQuoteAsSeenUseCaseImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/ResetAllQuotesToUnseenUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/ResetAllQuotesToUnseenUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/ResetAllQuotesToUnseenUseCaseImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/ResetAllQuotesToUnseenUseCaseImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/SetOnboardingCompletedUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/SetOnboardingCompletedUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/SetOnboardingCompletedUseCaseImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/SetOnboardingCompletedUseCaseImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/ShareQuoteUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/ShareQuoteUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/UpdateNotificationPreferencesUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/UpdateNotificationPreferencesUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/UpdateNotificationPreferencesUseCaseImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/UpdateNotificationPreferencesUseCaseImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/UpdateQuoteUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/UpdateQuoteUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/UpdateQuoteUseCaseImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/UpdateQuoteUseCaseImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/UpdateSelectedBackgroundUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/UpdateSelectedBackgroundUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/domain/usecase/UpdateSelectedBackgroundUseCaseImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/domain/usecase/UpdateSelectedBackgroundUseCaseImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/archive/ArchiveScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/archive/ArchiveScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/archive/ArchiveViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/archive/ArchiveViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/background/BackgroundScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/background/BackgroundScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/background/BackgroundViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/background/BackgroundViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/common/NotificationTimeButton.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/common/NotificationTimeButton.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/common/QuoteCard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/common/QuoteCard.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/common/QuoteShareHelper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/common/QuoteShareHelper.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/favorites/FavoritesScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/favorites/FavoritesScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/favorites/FavoritesViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/favorites/FavoritesViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/home/HomeScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/home/HomeScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/home/HomeViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/home/HomeViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/main/MainViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/main/MainViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/navigation/BottomNavItem.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/navigation/BottomNavItem.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/navigation/Routes.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/navigation/Routes.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/notification/NotificationScheduler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/notification/NotificationScheduler.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/notification/NotificationSchedulerWorkManagerImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/notification/NotificationSchedulerWorkManagerImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/onboarding/OnboardingScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/onboarding/OnboardingScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/onboarding/OnboardingViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/onboarding/OnboardingViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/settings/SettingsScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/settings/SettingsScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/settings/SettingsUiState.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/settings/SettingsUiState.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/settings/SettingsViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/settings/SettingsViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/theme/Color.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/theme/Color.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/theme/Theme.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/theme/Theme.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/ui/theme/Type.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/ui/theme/Type.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/motivationalsentencesapp/worker/NotificationWorker.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/amarosee/motywator/worker/NotificationWorker.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/com/example/motivationalsentencesapp/ExampleUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/test/java/pl/amarosee/motywator/ExampleUnitTest.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,11 +127,16 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=R5CTB13MX5H)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\user\.android\avd\Pixel_8_Pro_API_34.avd)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="GenerateSignedApkSettings">
+    <option name="KEY_STORE_PATH" value="C:\mojeRepa\motivational-sentences-app\motywator-keystore.jks" />
+    <option name="KEY_ALIAS" value="motywator" />
+    <option name="REMEMBER_PASSWORDS" value="true" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -44,6 +151,8 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Android App.MotivationalSentencesApp.app.executor&quot;: &quot;Run&quot;,
+    &quot;BundleExportedModule&quot;: &quot;MotivationalSentencesApp.app&quot;,
+    &quot;ExportBundle.BundlePathForMotivationalSentencesApp.app&quot;: &quot;C:\\mojeRepa\\motivational-sentences-app\\app&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
@@ -55,6 +164,11 @@
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;ExportApk.BuildVariants&quot;: [
+      &quot;release&quot;
+    ]
   }
 }</component>
   <component name="RunManager" selected="Android App.MotivationalSentencesApp.app">
@@ -217,14 +331,14 @@
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">
       <map>
-        <entry key="com.example.motivationalsentencesapp">
+        <entry key="pl.amarosee.motywator">
           <value>
-            <CheckInfo lastCheckTimestamp="1751825901503" />
+            <CheckInfo lastCheckTimestamp="1752610991297" />
           </value>
         </entry>
-        <entry key="com.example.motivationalsentencesapp.test">
+        <entry key="pl.amarosee.motywator.test">
           <value>
-            <CheckInfo lastCheckTimestamp="1751825901503" />
+            <CheckInfo lastCheckTimestamp="1752610991297" />
           </value>
         </entry>
       </map>

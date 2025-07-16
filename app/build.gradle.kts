@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.motivationalsentencesapp"
+    namespace = "pl.amarosee.motywator"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.motivationalsentencesapp"
+        applicationId = "pl.amarosee.motywator"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -21,7 +21,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
