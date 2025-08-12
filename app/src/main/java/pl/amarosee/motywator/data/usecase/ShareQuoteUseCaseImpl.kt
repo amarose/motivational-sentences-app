@@ -14,7 +14,8 @@ class ShareQuoteUseCaseImpl : ShareQuoteUseCase {
      */
     override operator fun invoke(quoteText: String): String {
         val quoteTextWithQuotes = "\"$quoteText\""
-        val promoText = "Pobierz tą aplikację zupełnie za darmo i czerp z niej motywację do działania"
-        return "$quoteTextWithQuotes\n\n$promoText"
+        val promoText = "Pobierz tę aplikację zupełnie za darmo i czerp z niej motywację do działania!"
+        val appLink = "https://play.google.com/store/apps/details?id=pl.amarosee.motywator"
+        return "$quoteTextWithQuotes\n\n$promoText\n\n$appLink"
     }
 }

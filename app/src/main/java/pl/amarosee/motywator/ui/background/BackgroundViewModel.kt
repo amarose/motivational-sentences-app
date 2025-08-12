@@ -12,11 +12,17 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 
 data class BackgroundUiState(
     val backgrounds: List<Background> = emptyList(),
     val selectedBackgroundResId: Int? = null
 )
+
+sealed class BackgroundViewEffect {
+    object BackgroundChanged : BackgroundViewEffect()
+}
 
 class BackgroundViewModel(
     private val getAvailableBackgroundsUseCase: GetAvailableBackgroundsUseCase,
@@ -26,6 +32,9 @@ class BackgroundViewModel(
 
     private val _uiState = MutableStateFlow(BackgroundUiState())
     val uiState: StateFlow<BackgroundUiState> = _uiState.asStateFlow()
+
+    private val _effect = Channel<BackgroundViewEffect>()
+    val effect = _effect.receiveAsFlow()
 
     init {
         loadBackgrounds()
@@ -48,6 +57,7 @@ class BackgroundViewModel(
     fun onBackgroundSelected(backgroundResId: Int) {
         viewModelScope.launch {
             updateSelectedBackgroundUseCase(backgroundResId)
+            _effect.send(BackgroundViewEffect.BackgroundChanged)
         }
     }
 }

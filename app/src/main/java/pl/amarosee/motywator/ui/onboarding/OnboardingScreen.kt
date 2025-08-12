@@ -29,10 +29,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import pl.amarosee.motywator.ui.common.NotificationTimeButton
+import androidx.compose.ui.text.style.TextAlign
 import org.koin.androidx.compose.koinViewModel
+import pl.amarosee.motywator.ui.common.NotificationTimeButton
 
 @Composable
 fun OnboardingScreen(
@@ -84,7 +84,7 @@ private fun OnboardingContent(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(16.dp),
+            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 50.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text("Witaj!", style = MaterialTheme.typography.bodyMedium)

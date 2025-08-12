@@ -38,11 +38,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.toArgb
 import pl.amarosee.motywator.R
 
 import org.koin.androidx.compose.koinViewModel
@@ -102,7 +102,7 @@ private fun SettingsContent(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(16.dp)
+            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 50.dp)
     ) {
         LazyColumn(
             modifier = Modifier.weight(1f),

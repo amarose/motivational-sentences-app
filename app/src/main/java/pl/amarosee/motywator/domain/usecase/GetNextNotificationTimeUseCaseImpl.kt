@@ -2,18 +2,20 @@ package pl.amarosee.motywator.domain.usecase
 
 import pl.amarosee.motywator.data.repository.UserPreferencesRepository
 import kotlinx.coroutines.flow.first
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
 import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.DateTimeUnit
+import kotlin.time.ExperimentalTime
 
 class GetNextNotificationTimeUseCaseImpl(
     private val userPreferencesRepository: UserPreferencesRepository
 ) : GetNextNotificationTimeUseCase {
 
+    @OptIn(ExperimentalTime::class)
     override suspend fun invoke(): Long? {
         val preferences = userPreferencesRepository.userPreferences.first()
         if (!preferences.notificationEnabled || preferences.notificationTimes.isEmpty()) {
@@ -38,7 +40,7 @@ class GetNextNotificationTimeUseCaseImpl(
                         todayNotificationTime
                     }
                     nextNotificationDateTime.toInstant(systemTZ).toEpochMilliseconds()
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     // Handle malformed time string
                     null
                 }

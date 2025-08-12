@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.animation.DecelerateInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import pl.amarosee.motywator.ui.main.MainViewModel
@@ -155,7 +156,7 @@ fun MotivationalApp(
                     bottomNavItems.forEach { screen ->
                         val isSelected = currentDestination.hierarchy.any {
                             it.route == screen.route || it.route?.startsWith(screen.route + "?") == true
-                        } == true
+                        }
                         NavigationBarItem(
                             icon = { Icon(screen.icon, contentDescription = screen.title) },
                             label = { Text(screen.title, maxLines = 1) },

@@ -28,7 +28,7 @@ import pl.amarosee.motywator.ui.settings.SettingsViewModel
 import pl.amarosee.motywator.worker.NotificationWorker
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.module.dsl.viewModel
 import org.koin.androidx.workmanager.dsl.worker
 
 val appModule = module {
